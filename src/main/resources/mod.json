@@ -1,0 +1,11 @@
+{
+  "id": "modid",
+  "name": "Example Mod",
+  "version": "1.0.0",
+  "side": "universal",
+  "initializer": "space.bbkr.aquarius.Aquarius",
+  "mixins": {
+    "client": "aquarius.client.json",
+    "common": "aquarius.common.json"
+  }
+}

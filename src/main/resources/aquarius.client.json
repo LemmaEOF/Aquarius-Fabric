@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "space.bbkr.aquarius.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "refmap": "aquarius.refmap.json",
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

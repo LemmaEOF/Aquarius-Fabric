@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "space.bbkr.aquarius.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinChanneling",
+    "MixinEntityTrident",
+    "MixinFlippers",
+    "MixinTridentRepair"
+  ],
+  "refmap": "aquarius.refmap.json",
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
