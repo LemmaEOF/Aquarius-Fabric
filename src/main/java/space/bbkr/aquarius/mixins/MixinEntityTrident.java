@@ -27,7 +27,7 @@ public abstract class MixinEntityTrident extends EntityProjectile {
     private ItemStack tridentStack;
 
     public MixinEntityTrident(World world, EntityLiving thrower, ItemStack stack) {
-        super(EntityFactory.field_6127, thrower, world);
+        super(EntityFactory.TRIDENT, thrower, world);
         this.tridentStack = stack;
     }
 
@@ -40,10 +40,10 @@ public abstract class MixinEntityTrident extends EntityProjectile {
             cancellable = true,
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
             remap = false)
-    public void onHitEntity(HitResult p_onHitEntity_1_, CallbackInfo ci, Entity var2, float var3, DamageSource var5, Sound var6, float var11) {
+    public void onHitEntity(HitResult p_onHitEntity_1_, CallbackInfo ci, Entity var2, float var3, Entity var10, DamageSource var5, Sound var6, float var11) {
         if ((this.world.isThundering() && EnchantmentHelper.method_8228(this.tridentStack)) || (this.world.isRaining() && getChannelingLevel(tridentStack) >= 2) || getChannelingLevel(tridentStack) == 3) {
             BlockPos entityPos = var2.method_5704();
-            if (this.world.method_8311(entityPos)) {
+            if (this.world.getSkyLightLevel(entityPos)) {
                 EntityLightning lightning = new EntityLightning(this.world, (double)entityPos.getX(), (double)entityPos.getY(), (double)entityPos.getZ(), false);
                 lightning.method_6961(this.getOwner() instanceof EntityPlayerServer ? (EntityPlayerServer)this.getOwner() : null);
                 this.world.addGlobalEntity(lightning);
