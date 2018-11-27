@@ -15,15 +15,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import space.bbkr.aquarius.Aquarius;
 
 @Mixin(EntityPlayer.class)
-public abstract class MixinFlippers extends EntityLiving {
-
-    private boolean wasLastAirSwimming = false;
+public abstract class MixinSwimming extends EntityLiving {
 
     @Shadow public abstract boolean isSwimming();
 
     @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot equipmentSlot);
 
-    public MixinFlippers(EntityFactory<?> factory, World world) {
+    public MixinSwimming(EntityFactory<?> factory, World world) {
         super(factory, world);
     }
 
@@ -36,16 +34,19 @@ public abstract class MixinFlippers extends EntityLiving {
         }
     }
 
+    @Override
+    public boolean method_5869() {
+        return (this.field_6000 && this.isInsideWater()) || this.hasPotionEffect(Aquarius.AIR_SWIMMER);
+    }
+
     @Inject(method = "method_5790", at = @At("TAIL"))
     public void updateAirSwimming(CallbackInfo ci) {
         if (this.hasPotionEffect(Aquarius.AIR_SWIMMER)) {
             this.method_5796(this.isSprinting() && !this.hasVehicle());
-            this.wasLastAirSwimming = (this.isSwimming());
             this.insideWater = this.isSwimming();
             if (this.isSwimming()) {
                 this.fallDistance = 0.0F;
                 Vec3d look = this.getRotationVecClient();
-                //TODO: figure out how to get this to only happen when there's key input
                 move(MovementType.SELF, look.x/4, look.y/4, look.z/4);
             }
         }
