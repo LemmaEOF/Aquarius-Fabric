@@ -1,3 +1,6 @@
 {
-  "item.aquarius.flippers": "Flippers"
+  "block.aquarius.chorus_conduit": "Chorus conduit",
+  "item.aquarius.flippers": "Flippers",
+  "item.aquarius.prismarine_rod": "Prismarine rod",
+  "effect.aquarius.air_swimmer": "Air Swimmer"
 }
