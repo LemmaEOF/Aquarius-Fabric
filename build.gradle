@@ -30,9 +30,9 @@ minecraft {
 }
 
 dependencies {
- 	minecraft "com.mojang:minecraft:18w47a"
- 	mappings "net.fabricmc:pomf:18w47a.7"
-	modCompile "net.fabricmc:fabric-loader:18w44a-0.1.0.43"
+ 	minecraft "com.mojang:minecraft:18w47b"
+ 	mappings "net.fabricmc:pomf:18w47b.12"
+	modCompile "net.fabricmc:fabric-loader:18w44a-0.1.0.47"
 	modCompile "net.fabricmc:fabric:0.0.3-SNAPSHOT"
 	implementation 'org.jetbrains:annotations:15.0'
 }

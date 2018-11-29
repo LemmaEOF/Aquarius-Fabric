@@ -3,26 +3,27 @@ package space.bbkr.aquarius;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftGame;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.entity.model.BoxEntityModel;
 import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.EntityModelBox;
+import net.minecraft.client.render.entity.model.BoxEntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Polar2f;
 
-public class ChorusConduitRender extends BlockEntityRenderer<ChorusConduitBlockEntity> {
+public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBlockEntity> {
     private static final Identifier baseTex = new Identifier("aquarius:textures/entity/chorus_conduit/base.png");
     private static final Identifier cageTex = new Identifier("aquarius:textures/entity/chorus_conduit/cage.png");
     private static final Identifier windTex = new Identifier("aquarius:textures/entity/chorus_conduit/wind.png");
     private static final Identifier verticalWindTex = new Identifier("aquarius:textures/entity/chorus_conduit/wind_vertical.png");
     private static final Identifier openEyeTex = new Identifier("aquarius:textures/entity/chorus_conduit/open_eye.png");
     private static final Identifier closedEyeTex = new Identifier("aquarius:textures/entity/chorus_conduit/closed_eye.png");
-    private final EntityModel shellModel = new ChorusConduitRender.ShellModel();
-    private final EntityModel cageModel = new ChorusConduitRender.CageModel();
-    private final ChorusConduitRender.WindModel windModel = new ChorusConduitRender.WindModel();
-    private final ChorusConduitRender.EyeModel eyeModel = new ChorusConduitRender.EyeModel();
+    private final EntityModel shellModel = new ChorusConduitRenderer.ShellModel();
+    private final EntityModel cageModel = new ChorusConduitRenderer.CageModel();
+    private final ChorusConduitRenderer.WindModel windModel = new ChorusConduitRenderer.WindModel();
+    private final ChorusConduitRenderer.EyeModel eyeModel = new ChorusConduitRenderer.EyeModel();
 
-    public ChorusConduitRender() {
+    public ChorusConduitRenderer() {
 
     }
 
@@ -48,9 +49,9 @@ public class ChorusConduitRender extends BlockEntityRenderer<ChorusConduitBlockE
             GlStateManager.rotatef(rotPoint, 0.5F, 1.0F, 0.5F);
             this.cageModel.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
             GlStateManager.popMatrix();
-            int windFrame = conduit.ticksExisted / 3 % ChorusConduitRender.WindModel.windCount;
+            int windFrame = conduit.ticksExisted / 3 % ChorusConduitRenderer.WindModel.windCount;
             this.windModel.setFrame(windFrame);
-            int frameLoop = conduit.ticksExisted / (3 * ChorusConduitRender.WindModel.windCount) % 3;
+            int frameLoop = conduit.ticksExisted / (3 * ChorusConduitRenderer.WindModel.windCount) % 3;
             switch(frameLoop) {
                 case 0:
                     this.bindTexture(windTex);
@@ -123,12 +124,12 @@ public class ChorusConduitRender extends BlockEntityRenderer<ChorusConduitBlockE
     }
 
     static class EyeModel extends EntityModel {
-        private final EntityModelBox renderer;
+        private final BoxEntityModel renderer;
 
         public EyeModel() {
             this.textureWidth = 8;
             this.textureHeight = 8;
-            this.renderer = new EntityModelBox(this, 0, 0);
+            this.renderer = new BoxEntityModel(this, 0, 0);
             this.renderer.addBox(-4.0F, -4.0F, 0.0F, 8, 8, 0, 0.01F);
         }
 
@@ -139,16 +140,16 @@ public class ChorusConduitRender extends BlockEntityRenderer<ChorusConduitBlockE
 
     static class WindModel extends EntityModel {
         public static int windCount = 22;
-        private final EntityModelBox[] renderer;
+        private final BoxEntityModel[] renderer;
         private int frame;
 
         public WindModel() {
-            this.renderer = new EntityModelBox[windCount];
+            this.renderer = new BoxEntityModel[windCount];
             this.textureWidth = 64;
             this.textureHeight = 1024;
 
             for(int i = 0; i < windCount; ++i) {
-                this.renderer[i] = new EntityModelBox(this, 0, 32 * i);
+                this.renderer[i] = new BoxEntityModel(this, 0, 32 * i);
                 this.renderer[i].method_2844(-8.0F, -8.0F, -8.0F, 16, 16, 16);
             }
 
@@ -164,12 +165,12 @@ public class ChorusConduitRender extends BlockEntityRenderer<ChorusConduitBlockE
     }
 
     static class CageModel extends EntityModel {
-        private final EntityModelBox renderer;
+        private final BoxEntityModel renderer;
 
         public CageModel() {
             this.textureWidth = 32;
             this.textureHeight = 16;
-            this.renderer = new EntityModelBox(this, 0, 0);
+            this.renderer = new BoxEntityModel(this, 0, 0);
             this.renderer.method_2844(-4.0F, -4.0F, -4.0F, 8, 8, 8);
         }
 
@@ -179,12 +180,12 @@ public class ChorusConduitRender extends BlockEntityRenderer<ChorusConduitBlockE
     }
 
     static class ShellModel extends EntityModel {
-        private final EntityModelBox renderer;
+        private final BoxEntityModel renderer;
 
         public ShellModel() {
             this.textureWidth = 32;
             this.textureHeight = 16;
-            this.renderer = new EntityModelBox(this, 0, 0);
+            this.renderer = new BoxEntityModel(this, 0, 0);
             this.renderer.method_2844(-3.0F, -3.0F, -3.0F, 6, 6, 6);
         }
 

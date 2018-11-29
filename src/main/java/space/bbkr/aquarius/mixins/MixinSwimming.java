@@ -1,9 +1,9 @@
 package space.bbkr.aquarius.mixins;
 
 import net.minecraft.entity.*;
-import net.minecraft.entity.effect.MobEffectInstance;
-import net.minecraft.entity.effect.MobEffects;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.effect.StatusEffectInstnace;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -14,14 +14,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import space.bbkr.aquarius.Aquarius;
 
-@Mixin(EntityPlayer.class)
-public abstract class MixinSwimming extends EntityLiving {
+@Mixin(PlayerEntity.class)
+public abstract class MixinSwimming extends LivingEntity {
 
     @Shadow public abstract boolean isSwimming();
 
     @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot equipmentSlot);
 
-    public MixinSwimming(EntityFactory<?> factory, World world) {
+    public MixinSwimming(EntityType<?> factory, World world) {
         super(factory, world);
     }
 
@@ -29,8 +29,8 @@ public abstract class MixinSwimming extends EntityLiving {
     private void updateTurtleHelmet(CallbackInfo ci) {
         ItemStack stackFeet = this.getEquippedStack(EquipmentSlot.FEET);
         if (stackFeet.getItem() == Aquarius.FLIPPERS) {
-            if (this.isInsideWater()) this.addPotionEffect(new MobEffectInstance(MobEffects.field_5900, 20, 0, true, false, true));
-            else this.addPotionEffect(new MobEffectInstance(MobEffects.field_5909, 20, 0, true, false, true));
+            if (this.isInsideWater()) this.addPotionEffect(new StatusEffectInstnace(StatusEffects.field_5900, 20, 0, true, false, true));
+            else this.addPotionEffect(new StatusEffectInstnace(StatusEffects.field_5909, 20, 0, true, false, true));
         }
     }
 

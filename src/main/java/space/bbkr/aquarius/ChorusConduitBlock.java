@@ -1,10 +1,10 @@
 package space.bbkr.aquarius;
 
-import net.minecraft.block.BlockConduit;
+import net.minecraft.block.ConduitBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.world.BlockView;
 
-public class ChorusConduitBlock extends BlockConduit {
+public class ChorusConduitBlock extends ConduitBlock {
 
     public ChorusConduitBlock(Builder builder) {
         super(builder);

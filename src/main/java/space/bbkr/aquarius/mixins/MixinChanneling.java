@@ -1,10 +1,10 @@
 package space.bbkr.aquarius.mixins;
 
-import net.minecraft.enchantment.EnchantmentChanneling;
+import net.minecraft.enchantment.ChannelingEnchantment;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(EnchantmentChanneling.class)
+@Mixin(ChannelingEnchantment.class)
 public class MixinChanneling {
 
     /**

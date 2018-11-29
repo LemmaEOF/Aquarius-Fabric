@@ -4,11 +4,11 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntityConduit;
 import net.minecraft.block.entity.BlockEntityFactory;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.effect.MobEffectInstance;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.entity.ConduitBlockEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstnace;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.Sounds;
 import net.minecraft.util.Tickable;
@@ -22,15 +22,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public class ChorusConduitBlockEntity extends BlockEntityConduit implements Tickable {
+public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tickable {
 
     public int ticksExisted;
     private final List<BlockPos> purpurPositions;
-    private static final Block[] validBlocks = new Block[]{Blocks.field_10286, Blocks.field_10505};
+    private static final Block[] validBlocks = new Block[]{Blocks.PURPUR_BLOCK, Blocks.PURPUR_PILLAR};
     private float rotationPoint;
     private boolean active;
     private boolean eyeOpen;
-    private EntityLiving target;
+    private LivingEntity target;
     private UUID targetUuid;
     private long nextSoundTime;
 
@@ -121,12 +121,12 @@ public class ChorusConduitBlockEntity extends BlockEntityConduit implements Tick
         int posY = this.pos.getY();
         int posZ = this.pos.getZ();
         BoundingBox aabb = (new BoundingBox((double)posX, (double)posY, (double)posZ, (double)(posX + 1), (double)(posY + 1), (double)(posZ + 1))).expand((double)range).expand(0.0D, (double)this.world.getHeight(), 0.0D);
-        List<EntityPlayer> players = this.world.getVisibleEntities(EntityPlayer.class, aabb);
+        List<PlayerEntity> players = this.world.getVisibleEntities(PlayerEntity.class, aabb);
         if (!players.isEmpty()) {
 
-            for (EntityPlayer player : players) {
+            for (PlayerEntity player : players) {
                 if (this.pos.distanceTo(new BlockPos(player)) <= (double)range) {
-                    player.addPotionEffect(new MobEffectInstance(Aquarius.AIR_SWIMMER, 260, 0, true, true));
+                    player.addPotionEffect(new StatusEffectInstnace(Aquarius.AIR_SWIMMER, 260, 0, true, true));
                 }
             }
 
@@ -153,8 +153,8 @@ public class ChorusConduitBlockEntity extends BlockEntityConduit implements Tick
     }
 
     @Nullable
-    private EntityLiving findExistingTarget() {
-        List<EntityLiving> entities = this.world.getEntities(EntityLiving.class, this.getAreaOfEffect(), (entity) -> entity.getUuid().equals(this.targetUuid));
+    private LivingEntity findExistingTarget() {
+        List<LivingEntity> entities = this.world.getEntities(LivingEntity.class, this.getAreaOfEffect(), (entity) -> entity.getUuid().equals(this.targetUuid));
         return entities.size() == 1 ? entities.get(0) : null;
     }
 
