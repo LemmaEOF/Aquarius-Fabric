@@ -1,15 +1,14 @@
 package space.bbkr.aquarius;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.MinecraftGame;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.model.Cuboid;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.entity.model.BoxEntityModel;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.BoxEntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Polar2f;
+import net.minecraft.util.math.Vec2f;
 
 public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBlockEntity> {
     private static final Identifier baseTex = new Identifier("aquarius:textures/entity/chorus_conduit/base.png");
@@ -18,8 +17,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
     private static final Identifier verticalWindTex = new Identifier("aquarius:textures/entity/chorus_conduit/wind_vertical.png");
     private static final Identifier openEyeTex = new Identifier("aquarius:textures/entity/chorus_conduit/open_eye.png");
     private static final Identifier closedEyeTex = new Identifier("aquarius:textures/entity/chorus_conduit/closed_eye.png");
-    private final EntityModel shellModel = new ChorusConduitRenderer.ShellModel();
-    private final EntityModel cageModel = new ChorusConduitRenderer.CageModel();
+    private final Model shellModel = new ChorusConduitRenderer.ShellModel();
+    private final Model cageModel = new ChorusConduitRenderer.CageModel();
     private final ChorusConduitRenderer.WindModel windModel = new ChorusConduitRenderer.WindModel();
     private final ChorusConduitRenderer.EyeModel eyeModel = new ChorusConduitRenderer.EyeModel();
 
@@ -98,8 +97,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
                     GlStateManager.popMatrix();
             }
 
-            Entity viewer = MinecraftGame.getInstance().getCameraEntity();
-            Polar2f look = Polar2f.field_1335;
+            Entity viewer = MinecraftClient.getInstance().getCameraEntity();
+            Vec2f look = Vec2f.field_1335;
             if (viewer != null) {
                 look = viewer.getRotationClient();
             }
@@ -113,8 +112,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
             GlStateManager.pushMatrix();
             GlStateManager.translatef((float)x + 0.5F, (float)y + 0.3F + bobPoint * 0.2F, (float)z + 0.5F);
             GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-            GlStateManager.rotatef(-look.pitch, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotatef(look.yaw, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotatef(-look.y, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotatef(look.x, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotatef(180.0F, 0.0F, 0.0F, 1.0F);
             this.eyeModel.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.083333336F);
             GlStateManager.popMatrix();
@@ -123,13 +122,13 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
         super.render(conduit, x, y, z, partialTicks, p_render_9_);
     }
 
-    static class EyeModel extends EntityModel {
-        private final BoxEntityModel renderer;
+    static class EyeModel extends Model {
+        private final Cuboid renderer;
 
         public EyeModel() {
             this.textureWidth = 8;
             this.textureHeight = 8;
-            this.renderer = new BoxEntityModel(this, 0, 0);
+            this.renderer = new Cuboid(this, 0, 0);
             this.renderer.addBox(-4.0F, -4.0F, 0.0F, 8, 8, 0, 0.01F);
         }
 
@@ -138,19 +137,19 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
         }
     }
 
-    static class WindModel extends EntityModel {
+    static class WindModel extends Model {
         public static int windCount = 22;
-        private final BoxEntityModel[] renderer;
+        private final Cuboid[] renderer;
         private int frame;
 
         public WindModel() {
-            this.renderer = new BoxEntityModel[windCount];
+            this.renderer = new Cuboid[windCount];
             this.textureWidth = 64;
             this.textureHeight = 1024;
 
             for(int i = 0; i < windCount; ++i) {
-                this.renderer[i] = new BoxEntityModel(this, 0, 32 * i);
-                this.renderer[i].method_2844(-8.0F, -8.0F, -8.0F, 16, 16, 16);
+                this.renderer[i] = new Cuboid(this, 0, 32 * i);
+                this.renderer[i].addBox(-8.0F, -8.0F, -8.0F, 16, 16, 16);
             }
 
         }
@@ -164,14 +163,14 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
         }
     }
 
-    static class CageModel extends EntityModel {
-        private final BoxEntityModel renderer;
+    static class CageModel extends Model {
+        private final Cuboid renderer;
 
         public CageModel() {
             this.textureWidth = 32;
             this.textureHeight = 16;
-            this.renderer = new BoxEntityModel(this, 0, 0);
-            this.renderer.method_2844(-4.0F, -4.0F, -4.0F, 8, 8, 8);
+            this.renderer = new Cuboid(this, 0, 0);
+            this.renderer.addBox(-4.0F, -4.0F, -4.0F, 8, 8, 8);
         }
 
         public void render(Entity conduit, float x, float y, float z, float p_render_5_, float p_render_6_, float p_render_7_) {
@@ -179,14 +178,14 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
         }
     }
 
-    static class ShellModel extends EntityModel {
-        private final BoxEntityModel renderer;
+    static class ShellModel extends Model {
+        private final Cuboid renderer;
 
         public ShellModel() {
             this.textureWidth = 32;
             this.textureHeight = 16;
-            this.renderer = new BoxEntityModel(this, 0, 0);
-            this.renderer.method_2844(-3.0F, -3.0F, -3.0F, 6, 6, 6);
+            this.renderer = new Cuboid(this, 0, 0);
+            this.renderer.addBox(-3.0F, -3.0F, -3.0F, 6, 6, 6);
         }
 
         public void render(Entity conduit, float x, float y, float z, float p_render_5_, float p_render_6_, float p_render_7_) {

@@ -32,7 +32,7 @@ public abstract class MixinEntityTrident extends ProjectileEntity {
     }
 
     private int getChannelingLevel(ItemStack stack) {
-        return EnchantmentHelper.getLevel(Enchantments.field_9117, stack);
+        return EnchantmentHelper.getLevel(Enchantments.CHANNELING, stack);
     }
 
     @Inject(method = "method_7454",
@@ -47,7 +47,7 @@ public abstract class MixinEntityTrident extends ProjectileEntity {
                 LightningEntity lightning = new LightningEntity(this.world, (double)entityPos.getX(), (double)entityPos.getY(), (double)entityPos.getZ(), false);
                 lightning.method_6961(this.getOwner() instanceof ServerPlayerEntity ? (ServerPlayerEntity) this.getOwner() : null);
                 this.world.addGlobalEntity(lightning);
-                var6 = Sounds.field_14896;
+                var6 = Sounds.ITEM_TRIDENT_THUNDER;
                 var11 = 5.0F;
             }
         }

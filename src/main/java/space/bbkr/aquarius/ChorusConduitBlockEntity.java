@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntityFactory;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ConduitBlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstnace;
@@ -38,7 +38,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         this(Aquarius.CHORUS_CONDUIT_BE);
     }
 
-    public ChorusConduitBlockEntity(BlockEntityFactory<?> type) {
+    public ChorusConduitBlockEntity(BlockEntityType<?> type) {
         super(type);
         this.purpurPositions = Lists.newArrayList();
     }
@@ -54,12 +54,12 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         }
 
         if (time % 80L == 0L && this.isActive()) {
-            this.method_11067(Sounds.field_14632);
+            this.method_11067(Sounds.BLOCK_CONDUIT_AMBIENT);
         }
 
         if (time > this.nextSoundTime && this.isActive()) {
             this.nextSoundTime = time + 60L + (long)this.world.getRandom().nextInt(40);
-            this.method_11067(Sounds.field_15071);
+            this.method_11067(Sounds.BLOCK_CONDUIT_AMBIENT_SHORT);
         }
 
         if (this.world.isRemote) {
@@ -126,7 +126,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
             for (PlayerEntity player : players) {
                 if (this.pos.distanceTo(new BlockPos(player)) <= (double)range) {
-                    player.addPotionEffect(new StatusEffectInstnace(Aquarius.AIR_SWIMMER, 260, 0, true, true));
+                    player.addPotionEffect(new StatusEffectInstnace(Aquarius.ATLANTEAN, 260, 0, true, true));
                 }
             }
 
@@ -159,7 +159,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
     }
 
     private void spawnParticles() {
-        Random rand = this.world.rand;
+        Random rand = this.world.random;
         float rot = MathHelper.sin((float)(this.ticksExisted + 35) * 0.1F) / 2.0F + 0.5F;
         rot = (rot * rot + rot) * 0.3F;
         Vec3d vec = new Vec3d((double)((float)this.pos.getX() + 0.5F), (double)((float)this.pos.getY() + 1.5F + rot), (double)((float)this.pos.getZ() + 0.5F));
@@ -173,7 +173,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
                 float distZ = -0.5F + rand.nextFloat();
                 BlockPos relPos = pos.subtract(this.pos);
                 Vec3d lvt_10_1_ = (new Vec3d((double)distX, (double)distY, (double)distZ)).add((double)relPos.getX(), (double)relPos.getY(), (double)relPos.getZ());
-                this.world.method_8406(ParticleTypes.field_11229, vec.x, vec.y, vec.z, lvt_10_1_.x, lvt_10_1_.y, lvt_10_1_.z);
+                this.world.method_8406(ParticleTypes.NAUTILUS, vec.x, vec.y, vec.z, lvt_10_1_.x, lvt_10_1_.y, lvt_10_1_.z);
             }
         }
 
@@ -183,7 +183,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
             distX = -1.0F + rand.nextFloat() * this.target.height;
             distY = (-0.5F + rand.nextFloat()) * (3.0F + this.target.width);
             Vec3d velocity = new Vec3d((double)randVel, (double)distX, (double)distY);
-            this.world.method_8406(ParticleTypes.field_11229, playerEyes.x, playerEyes.y, playerEyes.z, velocity.x, velocity.y, velocity.z);
+            this.world.method_8406(ParticleTypes.NAUTILUS, playerEyes.x, playerEyes.y, playerEyes.z, velocity.x, velocity.y, velocity.z);
         }
 
     }
@@ -198,7 +198,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
     private void setActive(boolean active) {
         if (active != this.active) {
-            this.method_11067(active ? Sounds.field_14700 : Sounds.field_14979);
+            this.method_11067(active ? Sounds.BLOCK_CONDUIT_ACTIVATE : Sounds.BLOCK_CONDUIT_DEACTIVATE);
         }
 
         this.active = active;

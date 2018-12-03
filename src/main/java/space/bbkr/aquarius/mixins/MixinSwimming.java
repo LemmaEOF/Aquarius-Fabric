@@ -29,19 +29,25 @@ public abstract class MixinSwimming extends LivingEntity {
     private void updateTurtleHelmet(CallbackInfo ci) {
         ItemStack stackFeet = this.getEquippedStack(EquipmentSlot.FEET);
         if (stackFeet.getItem() == Aquarius.FLIPPERS) {
-            if (this.isInsideWater()) this.addPotionEffect(new StatusEffectInstnace(StatusEffects.field_5900, 20, 0, true, false, true));
-            else this.addPotionEffect(new StatusEffectInstnace(StatusEffects.field_5909, 20, 0, true, false, true));
+            if (this.isInsideWater()) this.addPotionEffect(new StatusEffectInstnace(StatusEffects.DOLPHINS_GRACE, 20, 0, true, false, true));
+            else this.addPotionEffect(new StatusEffectInstnace(StatusEffects.SLOWNESS, 20, 0, true, false, true));
         }
     }
 
     @Override
     public boolean method_5869() {
-        return (this.field_6000 && this.isInsideWater()) || this.hasPotionEffect(Aquarius.AIR_SWIMMER);
+        return (this.field_6000 && this.isInsideWater()) || this.hasPotionEffect(Aquarius.ATLANTEAN);
+    }
+
+    @Override
+    public boolean method_5721() {
+        if (this.hasPotionEffect(Aquarius.ATLANTEAN)) return true;
+        return super.method_5721();
     }
 
     @Inject(method = "method_5790", at = @At("TAIL"))
     public void updateAirSwimming(CallbackInfo ci) {
-        if (this.hasPotionEffect(Aquarius.AIR_SWIMMER)) {
+        if (this.hasPotionEffect(Aquarius.ATLANTEAN)) {
             this.method_5796(this.isSprinting() && !this.hasVehicle());
             this.insideWater = this.isSwimming();
             if (this.isSwimming()) {
