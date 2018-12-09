@@ -21,12 +21,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(TridentEntity.class)
-public abstract class MixinEntityTrident extends ProjectileEntity {
+public abstract class MixinTridentEntity extends ProjectileEntity {
 
     @Shadow
     private ItemStack tridentStack;
 
-    public MixinEntityTrident(World world, LivingEntity thrower, ItemStack stack) {
+    public MixinTridentEntity(World world, LivingEntity thrower, ItemStack stack) {
         super(EntityType.TRIDENT, thrower, world);
         this.tridentStack = stack;
     }

@@ -53,11 +53,11 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
             }
         }
 
-        if (time % 80L == 0L && this.isActive()) {
+        if (time % 80L == 0L && this.method_11065()) {
             this.method_11067(Sounds.BLOCK_CONDUIT_AMBIENT);
         }
 
-        if (time > this.nextSoundTime && this.isActive()) {
+        if (time > this.nextSoundTime && this.method_11065()) {
             this.nextSoundTime = time + 60L + (long)this.world.getRandom().nextInt(40);
             this.method_11067(Sounds.BLOCK_CONDUIT_AMBIENT_SHORT);
         }

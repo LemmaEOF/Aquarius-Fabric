@@ -9,17 +9,17 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.Item;
-import net.minecraft.sortme.ItemGroup;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class Aquarius implements ModInitializer {
 
 	public static final Block CHORUS_CONDUIT = new ChorusConduitBlock(FabricBlockBuilder.create(Material.GLASS).setStrength(3.0F, 3.0F).setLuminance(15).build());
-	public static final Item FLIPPERS = new ArmorItem(ArmorMaterial.TURTLE, EquipmentSlot.FEET, new Item.Builder().itemGroup(ItemGroup.COMBAT));
-    public static final Item PRISMARINE_ROD = new Item(new Item.Builder().itemGroup(ItemGroup.MISC));
+	public static final Item FLIPPERS = new ArmorItem(ArmorMaterials.TURTLE, EquipmentSlot.FEET, new Item.Settings().itemGroup(ItemGroup.COMBAT));
+    public static final Item PRISMARINE_ROD = new Item(new Item.Settings().itemGroup(ItemGroup.MISC));
     public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE;
 
 	public static StatusEffect ATLANTEAN = new AquariusStatusEffect(false, 0x1dd186).setIconNew(9, 0);

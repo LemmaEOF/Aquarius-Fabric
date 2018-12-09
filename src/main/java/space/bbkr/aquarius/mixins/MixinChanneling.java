@@ -13,7 +13,7 @@ public class MixinChanneling {
      * @return 3, the new max for Channeling
      */
     @Overwrite
-    public int getHighestLevel() {
+    public int getMaximumLevel() {
         return 3;
     }
 }

@@ -7,7 +7,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath "net.fabricmc:fabric-loom:0.0.13-SNAPSHOT"
+		classpath "net.fabricmc:fabric-loom:0.1.0-SNAPSHOT"
 	}
 }
 
@@ -23,16 +23,16 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 archivesBaseName = "aquarius"
-version = "1.1"
+version = "18w49a-1.1"
 
 minecraft {
 
 }
 
 dependencies {
- 	minecraft "com.mojang:minecraft:18w48b"
- 	mappings "net.fabricmc:pomf:18w48b.16"
-	modCompile "net.fabricmc:fabric-loader:0.1.0.51"
+	minecraft "com.mojang:minecraft:18w49a"
+	mappings "net.fabricmc:yarn:18w49a.1"
+	modCompile "net.fabricmc:fabric-loader:0.2.0.59"
 	modCompile "net.fabricmc:fabric:0.0.3-SNAPSHOT"
 	implementation 'org.jetbrains:annotations:15.0'
 }
