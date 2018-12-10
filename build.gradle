@@ -33,6 +33,6 @@ dependencies {
 	minecraft "com.mojang:minecraft:18w49a"
 	mappings "net.fabricmc:yarn:18w49a.1"
 	modCompile "net.fabricmc:fabric-loader:0.2.0.59"
-	modCompile "net.fabricmc:fabric:0.0.3-SNAPSHOT"
+	modCompile "net.fabricmc:fabric:0.1.0"
 	implementation 'org.jetbrains:annotations:15.0'
 }
