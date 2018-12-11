@@ -43,7 +43,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         this.purpurPositions = Lists.newArrayList();
     }
 
-    public void update() {
+    public void tick() {
         ++this.ticksExisted;
         long time = this.world.getTime();
         if (time % 40L == 0L) {

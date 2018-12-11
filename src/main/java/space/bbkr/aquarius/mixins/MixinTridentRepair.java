@@ -13,9 +13,9 @@ import space.bbkr.aquarius.Aquarius;
 public class MixinTridentRepair {
 
     @Inject(method = "canRepair", at = @At(value = "HEAD"), cancellable = true)
-    private void canRepair(ItemStack p_getIsRepairable_1_, ItemStack p_getIsRepairable_2_, CallbackInfoReturnable<Boolean> cir) {
-        if (p_getIsRepairable_1_.getItem() instanceof TridentItem) {
-            cir.setReturnValue(p_getIsRepairable_2_.getItem() == Aquarius.PRISMARINE_ROD);
+    private void canRepair(ItemStack var1, ItemStack var2, CallbackInfoReturnable<Boolean> cir) {
+        if (var1.getItem() instanceof TridentItem) {
+            cir.setReturnValue(var2.getItem() == Aquarius.PRISMARINE_ROD);
         }
     }
 }

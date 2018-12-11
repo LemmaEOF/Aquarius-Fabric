@@ -3,9 +3,11 @@
   "name": "Aquarius",
   "version": "1.1",
   "side": "universal",
-  "initializer": "space.bbkr.aquarius.Aquarius",
+  "initializers": [
+    "space.bbkr.aquarius.Aquarius",
+    "space.bbkr.aquarius.AquariusClient"
+  ],
   "mixins": {
-    "client": "aquarius.client.json",
     "common": "aquarius.common.json"
   }
 }
