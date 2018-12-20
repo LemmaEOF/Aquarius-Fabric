@@ -31,23 +31,23 @@ public class Aquarius implements ModInitializer {
 	}
 
 	public static Block register(String name, Block block, ItemGroup tab) {
-		Registry.register(Registry.BLOCKS, "aquarius:" + name, block);
+		Registry.register(Registry.BLOCK, "aquarius:" + name, block);
 		BlockItem item = new BlockItem(block, new Item.Settings().itemGroup(tab));
 		register(name, item);
 		return block;
 	}
 
 	public static Item register(String name, Item item) {
-		Registry.register(Registry.ITEMS, "aquarius:" + name, item);
+		Registry.register(Registry.ITEM, "aquarius:" + name, item);
 		return item;
 	}
 
 	public static StatusEffect register(String name, StatusEffect effect) {
-		Registry.register(Registry.POTION_EFFECT_TYPES, "aquarius:" + name, effect);
+		Registry.register(Registry.STATUS_EFFECT, "aquarius:" + name, effect);
 		return effect;
 	}
 
 	public static BlockEntityType register(String name, Supplier<BlockEntity> be) {
-		return Registry.register(Registry.BLOCK_ENTITIES, "aquarius:" + name, BlockEntityType.Builder.create(be).method_11034(null));
+		return Registry.register(Registry.BLOCK_ENTITY, "aquarius:" + name, BlockEntityType.Builder.create(be).method_11034(null));
 	}
 }

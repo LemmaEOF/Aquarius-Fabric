@@ -22,10 +22,4 @@ public class ChorusConduitBlock extends ConduitBlock {
     public BlockEntity createBlockEntity(BlockView view) {
         return new ChorusConduitBlockEntity();
     }
-
-    @Override
-    public void addInformation(ItemStack itemStack, BlockView blockView, List<TextComponent> list, TooltipOptions tooltipOptions) {
-        super.addInformation(itemStack, blockView, list, tooltipOptions);
-        list.add(new TranslatableTextComponent("tooltip.aquarius.chorus_conduit.norender"));
-    }
 }

@@ -8,8 +8,8 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.Sound;
-import net.minecraft.sound.Sounds;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -40,14 +40,14 @@ public abstract class MixinTridentEntity extends ProjectileEntity {
             cancellable = true,
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
             remap = false)
-    public void onHitEntity(HitResult p_onHitEntity_1_, CallbackInfo ci, Entity var2, float var3, Entity var10, DamageSource var5, Sound var6, float var11) {
+    public void onHitEntity(HitResult var1, CallbackInfo ci, Entity var2, float var3, Entity var10, DamageSource var5, SoundEvent var6, float var11) {
         if ((this.world.isThundering() && EnchantmentHelper.hasChanneling(this.tridentStack)) || (this.world.isRaining() && getChannelingLevel(tridentStack) >= 2) || getChannelingLevel(tridentStack) == 3) {
             BlockPos entityPos = var2.getPos();
             if (this.world.getSkyLightLevel(entityPos)) {
                 LightningEntity lightning = new LightningEntity(this.world, (double)entityPos.getX(), (double)entityPos.getY(), (double)entityPos.getZ(), false);
                 lightning.method_6961(this.getOwner() instanceof ServerPlayerEntity ? (ServerPlayerEntity) this.getOwner() : null);
                 this.world.addGlobalEntity(lightning);
-                var6 = Sounds.ITEM_TRIDENT_THUNDER;
+                var6 = SoundEvents.ITEM_TRIDENT_THUNDER;
                 var11 = 5.0F;
             }
         }

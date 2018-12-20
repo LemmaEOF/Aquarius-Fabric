@@ -126,8 +126,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
         private final Cuboid renderer;
 
         public EyeModel() {
-            this.textureWidth = 8;
-            this.textureHeight = 8;
+            this.field_17138 = 8;
+            this.field_17139 = 8;
             this.renderer = new Cuboid(this, 0, 0);
             this.renderer.addBox(-4.0F, -4.0F, 0.0F, 8, 8, 0, 0.01F);
         }
@@ -144,8 +144,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
 
         public WindModel() {
             this.renderer = new Cuboid[windCount];
-            this.textureWidth = 64;
-            this.textureHeight = 1024;
+            this.field_17138 = 64;
+            this.field_17139 = 1024;
 
             for(int i = 0; i < windCount; ++i) {
                 this.renderer[i] = new Cuboid(this, 0, 32 * i);
@@ -167,8 +167,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
         private final Cuboid renderer;
 
         public CageModel() {
-            this.textureWidth = 32;
-            this.textureHeight = 16;
+            this.field_17138 = 32;
+            this.field_17139 = 16;
             this.renderer = new Cuboid(this, 0, 0);
             this.renderer.addBox(-4.0F, -4.0F, -4.0F, 8, 8, 8);
         }
@@ -182,8 +182,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
         private final Cuboid renderer;
 
         public ShellModel() {
-            this.textureWidth = 32;
-            this.textureHeight = 16;
+            this.field_17138 = 32;
+            this.field_17139 = 16;
             this.renderer = new Cuboid(this, 0, 0);
             this.renderer.addBox(-3.0F, -3.0F, -3.0F, 6, 6, 6);
         }

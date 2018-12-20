@@ -7,10 +7,10 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ConduitBlockEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstnace;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.Sounds;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BoundingBox;
@@ -48,21 +48,21 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         long time = this.world.getTime();
         if (time % 40L == 0L) {
             this.setActive(this.shouldBeActive());
-            if (!this.world.isRemote && this.isActive()) {
+            if (!this.world.isClient && this.isActive()) {
                 this.addEffectsToPlayers();
             }
         }
 
         if (time % 80L == 0L && this.method_11065()) {
-            this.method_11067(Sounds.BLOCK_CONDUIT_AMBIENT);
+            this.method_11067(SoundEvents.BLOCK_CONDUIT_AMBIENT);
         }
 
         if (time > this.nextSoundTime && this.method_11065()) {
             this.nextSoundTime = time + 60L + (long)this.world.getRandom().nextInt(40);
-            this.method_11067(Sounds.BLOCK_CONDUIT_AMBIENT_SHORT);
+            this.method_11067(SoundEvents.BLOCK_CONDUIT_AMBIENT_SHORT);
         }
 
-        if (this.world.isRemote) {
+        if (this.world.isClient) {
             this.updateClientTarget();
             this.spawnParticles();
             if (this.isActive()) {
@@ -126,7 +126,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
             for (PlayerEntity player : players) {
                 if (this.pos.distanceTo(new BlockPos(player)) <= (double)range) {
-                    player.addPotionEffect(new StatusEffectInstnace(Aquarius.ATLANTEAN, 260, 0, true, true));
+                    player.addPotionEffect(new StatusEffectInstance(Aquarius.ATLANTEAN, 260, 0, true, true));
                 }
             }
 
@@ -173,7 +173,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
                 float distZ = -0.5F + rand.nextFloat();
                 BlockPos relPos = pos.subtract(this.pos);
                 Vec3d lvt_10_1_ = (new Vec3d((double)distX, (double)distY, (double)distZ)).add((double)relPos.getX(), (double)relPos.getY(), (double)relPos.getZ());
-                this.world.method_8406(ParticleTypes.NAUTILUS, vec.x, vec.y, vec.z, lvt_10_1_.x, lvt_10_1_.y, lvt_10_1_.z);
+                this.world.addParticle(ParticleTypes.NAUTILUS, vec.x, vec.y, vec.z, lvt_10_1_.x, lvt_10_1_.y, lvt_10_1_.z);
             }
         }
 
@@ -183,7 +183,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
             distX = -1.0F + rand.nextFloat() * this.target.height;
             distY = (-0.5F + rand.nextFloat()) * (3.0F + this.target.width);
             Vec3d velocity = new Vec3d((double)randVel, (double)distX, (double)distY);
-            this.world.method_8406(ParticleTypes.NAUTILUS, playerEyes.x, playerEyes.y, playerEyes.z, velocity.x, velocity.y, velocity.z);
+            this.world.addParticle(ParticleTypes.NAUTILUS, playerEyes.x, playerEyes.y, playerEyes.z, velocity.x, velocity.y, velocity.z);
         }
 
     }
@@ -198,7 +198,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
     private void setActive(boolean active) {
         if (active != this.active) {
-            this.method_11067(active ? Sounds.BLOCK_CONDUIT_ACTIVATE : Sounds.BLOCK_CONDUIT_DEACTIVATE);
+            this.method_11067(active ? SoundEvents.BLOCK_CONDUIT_ACTIVATE : SoundEvents.BLOCK_CONDUIT_DEACTIVATE);
         }
 
         this.active = active;

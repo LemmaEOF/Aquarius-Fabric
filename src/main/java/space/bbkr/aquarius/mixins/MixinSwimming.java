@@ -1,7 +1,7 @@
 package space.bbkr.aquarius.mixins;
 
 import net.minecraft.entity.*;
-import net.minecraft.entity.effect.StatusEffectInstnace;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -24,13 +24,21 @@ public abstract class MixinSwimming extends LivingEntity {
     public MixinSwimming(EntityType<?> factory, World world) {
         super(factory, world);
     }
-
+    int maxSwimTime = 10;
+    int swimTime = 0;
     @Inject(method = "method_7330", at = @At("HEAD"))
     private void updateTurtleHelmet(CallbackInfo ci) {
         ItemStack stackFeet = this.getEquippedStack(EquipmentSlot.FEET);
         if (stackFeet.getItem() == Aquarius.FLIPPERS) {
-            if (this.isInsideWater()) this.addPotionEffect(new StatusEffectInstnace(StatusEffects.DOLPHINS_GRACE, 20, 0, true, false, true));
-            else this.addPotionEffect(new StatusEffectInstnace(StatusEffects.SLOWNESS, 20, 0, true, false, true));
+            if (this.method_5721()) {
+                swimTime = 0;
+                this.addPotionEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 20, 0, true, false, true));
+            }
+            else {
+                if (swimTime >= maxSwimTime) {
+                    this.addPotionEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20, 0, true, false, true));
+                } else swimTime++;
+            }
         }
     }
 
