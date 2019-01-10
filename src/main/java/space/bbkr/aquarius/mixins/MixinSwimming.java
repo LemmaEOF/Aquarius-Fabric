@@ -30,7 +30,7 @@ public abstract class MixinSwimming extends LivingEntity {
     private void updateTurtleHelmet(CallbackInfo ci) {
         ItemStack stackFeet = this.getEquippedStack(EquipmentSlot.FEET);
         if (stackFeet.getItem() == Aquarius.FLIPPERS) {
-            if (this.method_5721()) {
+            if (this.isInsideWaterOrRain()) {
                 swimTime = 0;
                 this.addPotionEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 20, 0, true, false, true));
             }
@@ -44,13 +44,13 @@ public abstract class MixinSwimming extends LivingEntity {
 
     @Override
     public boolean method_5869() {
-        return (this.field_6000 && this.isInsideWater()) || this.hasPotionEffect(Aquarius.ATLANTEAN);
+        return (this.field_6000 && this.isInsideWaterOrRain()) || this.hasPotionEffect(Aquarius.ATLANTEAN);
     }
 
     @Override
-    public boolean method_5721() {
+    public boolean isInsideWaterOrRain() {
         if (this.hasPotionEffect(Aquarius.ATLANTEAN)) return true;
-        return super.method_5721();
+        return super.isInsideWaterOrRain();
     }
 
     @Inject(method = "method_5790", at = @At("TAIL"))

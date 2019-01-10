@@ -17,8 +17,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
     private static final Identifier verticalWindTex = new Identifier("aquarius:textures/entity/chorus_conduit/wind_vertical.png");
     private static final Identifier openEyeTex = new Identifier("aquarius:textures/entity/chorus_conduit/open_eye.png");
     private static final Identifier closedEyeTex = new Identifier("aquarius:textures/entity/chorus_conduit/closed_eye.png");
-    private final Model shellModel = new ChorusConduitRenderer.ShellModel();
-    private final Model cageModel = new ChorusConduitRenderer.CageModel();
+    private final ChorusConduitRenderer.ShellModel shellModel = new ChorusConduitRenderer.ShellModel();
+    private final ChorusConduitRenderer.CageModel cageModel = new ChorusConduitRenderer.CageModel();
     private final ChorusConduitRenderer.WindModel windModel = new ChorusConduitRenderer.WindModel();
     private final ChorusConduitRenderer.EyeModel eyeModel = new ChorusConduitRenderer.EyeModel();
 
@@ -35,7 +35,7 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
             GlStateManager.pushMatrix();
             GlStateManager.translatef((float)x + 0.5F, (float)y + 0.5F, (float)z + 0.5F);
             GlStateManager.rotatef(rotPoint, 0.0F, 1.0F, 0.0F);
-            this.shellModel.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+            this.shellModel.method_17142(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
             GlStateManager.popMatrix();
         } else {
             rotPoint = conduit.drawTESR(partialTicks) * 57.295776F;
@@ -48,9 +48,9 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
             GlStateManager.rotatef(rotPoint, 0.5F, 1.0F, 0.5F);
             this.cageModel.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
             GlStateManager.popMatrix();
-            int windFrame = conduit.ticksExisted / 3 % ChorusConduitRenderer.WindModel.windCount;
+            int windFrame = conduit.ticksExisted / 3 % WindModel.windCount;
             this.windModel.setFrame(windFrame);
-            int frameLoop = conduit.ticksExisted / (3 * ChorusConduitRenderer.WindModel.windCount) % 3;
+            int frameLoop = conduit.ticksExisted / (3 * WindModel.windCount) % 3;
             switch(frameLoop) {
                 case 0:
                     this.bindTexture(windTex);
@@ -126,8 +126,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
         private final Cuboid renderer;
 
         public EyeModel() {
-            this.field_17138 = 8;
-            this.field_17139 = 8;
+            this.textureWidth = 8;
+            this.textureHeight = 8;
             this.renderer = new Cuboid(this, 0, 0);
             this.renderer.addBox(-4.0F, -4.0F, 0.0F, 8, 8, 0, 0.01F);
         }
@@ -144,8 +144,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
 
         public WindModel() {
             this.renderer = new Cuboid[windCount];
-            this.field_17138 = 64;
-            this.field_17139 = 1024;
+            this.textureWidth = 64;
+            this.textureHeight = 1024;
 
             for(int i = 0; i < windCount; ++i) {
                 this.renderer[i] = new Cuboid(this, 0, 32 * i);
@@ -167,8 +167,8 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
         private final Cuboid renderer;
 
         public CageModel() {
-            this.field_17138 = 32;
-            this.field_17139 = 16;
+            this.textureWidth = 32;
+            this.textureHeight = 16;
             this.renderer = new Cuboid(this, 0, 0);
             this.renderer.addBox(-4.0F, -4.0F, -4.0F, 8, 8, 8);
         }
@@ -182,13 +182,13 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
         private final Cuboid renderer;
 
         public ShellModel() {
-            this.field_17138 = 32;
-            this.field_17139 = 16;
+            this.textureWidth = 32;
+            this.textureHeight = 16;
             this.renderer = new Cuboid(this, 0, 0);
             this.renderer.addBox(-3.0F, -3.0F, -3.0F, 6, 6, 6);
         }
 
-        public void render(Entity conduit, float x, float y, float z, float p_render_5_, float p_render_6_, float p_render_7_) {
+        public void method_17142(Entity conduit, float x, float y, float z, float p_render_5_, float p_render_6_, float p_render_7_) {
             this.renderer.render(p_render_7_);
         }
     }
