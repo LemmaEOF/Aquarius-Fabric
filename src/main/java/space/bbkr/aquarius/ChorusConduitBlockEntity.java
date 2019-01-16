@@ -54,12 +54,12 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         }
 
         if (time % 80L == 0L && this.method_11065()) {
-            this.method_11067(SoundEvents.BLOCK_CONDUIT_AMBIENT);
+            this.playSound(SoundEvents.BLOCK_CONDUIT_AMBIENT);
         }
 
         if (time > this.nextSoundTime && this.method_11065()) {
             this.nextSoundTime = time + 60L + (long)this.world.getRandom().nextInt(40);
-            this.method_11067(SoundEvents.BLOCK_CONDUIT_AMBIENT_SHORT);
+            this.playSound(SoundEvents.BLOCK_CONDUIT_AMBIENT_SHORT);
         }
 
         if (this.world.isClient) {
@@ -179,9 +179,9 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
         if (this.target != null) {
             Vec3d playerEyes = new Vec3d(this.target.x, this.target.y + (double)this.target.getEyeHeight(), this.target.z);
-            float randVel = (-0.5F + rand.nextFloat()) * (3.0F + this.target.width);
-            distX = -1.0F + rand.nextFloat() * this.target.height;
-            distY = (-0.5F + rand.nextFloat()) * (3.0F + this.target.width);
+            float randVel = (-0.5F + rand.nextFloat()) * (3.0F + this.target.method_17681());
+            distX = -1.0F + rand.nextFloat() * this.target.method_17682();
+            distY = (-0.5F + rand.nextFloat()) * (3.0F + this.target.method_17681());
             Vec3d velocity = new Vec3d((double)randVel, (double)distX, (double)distY);
             this.world.addParticle(ParticleTypes.NAUTILUS, playerEyes.x, playerEyes.y, playerEyes.z, velocity.x, velocity.y, velocity.z);
         }
@@ -198,7 +198,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
     private void setActive(boolean active) {
         if (active != this.active) {
-            this.method_11067(active ? SoundEvents.BLOCK_CONDUIT_ACTIVATE : SoundEvents.BLOCK_CONDUIT_DEACTIVATE);
+            this.playSound(active ? SoundEvents.BLOCK_CONDUIT_ACTIVATE : SoundEvents.BLOCK_CONDUIT_DEACTIVATE);
         }
 
         this.active = active;

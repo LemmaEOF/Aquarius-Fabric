@@ -1,5 +1,6 @@
 package space.bbkr.aquarius.mixins;
 
+import net.minecraft.class_3966;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
@@ -10,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,7 +40,7 @@ public abstract class MixinTridentEntity extends ProjectileEntity {
             cancellable = true,
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
             remap = false)
-    public void onHitEntity(HitResult var1, CallbackInfo ci, Entity var2, float var3, Entity var10, DamageSource var5, SoundEvent var6, float var11) {
+    public void onHitEntity(class_3966 var1, CallbackInfo ci, Entity var2, float var3, Entity var10, DamageSource var5, SoundEvent var6, float var11) {
         if ((this.world.isThundering() && EnchantmentHelper.hasChanneling(this.tridentStack)) || (this.world.isRaining() && getChannelingLevel(tridentStack) >= 2) || getChannelingLevel(tridentStack) == 3) {
             BlockPos entityPos = var2.getPos();
             if (this.world.isSkyVisible(entityPos)) {
@@ -52,7 +52,7 @@ public abstract class MixinTridentEntity extends ProjectileEntity {
             }
         }
 
-        this.playSoundAtEntity(var6, var11, 1.0F);
+        this.playSound(var6, var11, 1.0F);
         ci.cancel();
     }
 

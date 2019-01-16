@@ -48,6 +48,6 @@ public class Aquarius implements ModInitializer {
 	}
 
 	public static BlockEntityType register(String name, Supplier<BlockEntity> be) {
-		return Registry.register(Registry.BLOCK_ENTITY, "aquarius:" + name, BlockEntityType.Builder.create(be).method_11034(null));
+		return Registry.register(Registry.BLOCK_ENTITY, "aquarius:" + name, BlockEntityType.Builder.create(be).build(null));
 	}
 }

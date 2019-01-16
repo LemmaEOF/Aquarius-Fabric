@@ -23,16 +23,16 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 archivesBaseName = "aquarius"
-version = "19w02a-1.1.2"
+version = "19w03a-1.1.2"
 
 minecraft {
 	refmapName = 'mixins.aquarius.refmap.json'
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:19w02a"
-	mappings "net.fabricmc:yarn:19w02a.12"
-	modCompile "net.fabricmc:fabric-loader:0.3.2.92"
-	modCompile "net.fabricmc:fabric:0.1.4.71"
+	minecraft "com.mojang:minecraft:19w03a"
+	mappings "net.fabricmc:yarn:19w03a.4"
+	modCompile "net.fabricmc:fabric-loader:0.3.2.96"
+	modCompile "net.fabricmc:fabric:0.1.4.75"
 	implementation 'org.jetbrains:annotations:15.0'
 }
