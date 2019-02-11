@@ -53,11 +53,11 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
             }
         }
 
-        if (time % 80L == 0L && this.method_11065()) {
+        if (time % 80L == 0L && this.isActive()) {
             this.playSound(SoundEvents.BLOCK_CONDUIT_AMBIENT);
         }
 
-        if (time > this.nextSoundTime && this.method_11065()) {
+        if (time > this.nextSoundTime && this.isActive()) {
             this.nextSoundTime = time + 60L + (long)this.world.getRandom().nextInt(40);
             this.playSound(SoundEvents.BLOCK_CONDUIT_AMBIENT_SHORT);
         }
@@ -179,9 +179,9 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
         if (this.target != null) {
             Vec3d playerEyes = new Vec3d(this.target.x, this.target.y + (double)this.target.getEyeHeight(), this.target.z);
-            float randVel = (-0.5F + rand.nextFloat()) * (3.0F + this.target.method_17681());
-            distX = -1.0F + rand.nextFloat() * this.target.method_17682();
-            distY = (-0.5F + rand.nextFloat()) * (3.0F + this.target.method_17681());
+            float randVel = (-0.5F + rand.nextFloat()) * (3.0F + this.target.getWidth());
+            distX = -1.0F + rand.nextFloat() * this.target.getHeight();
+            distY = (-0.5F + rand.nextFloat()) * (3.0F + this.target.getWidth());
             Vec3d velocity = new Vec3d((double)randVel, (double)distX, (double)distY);
             this.world.addParticle(ParticleTypes.NAUTILUS, playerEyes.x, playerEyes.y, playerEyes.z, velocity.x, velocity.y, velocity.z);
         }
