@@ -62,7 +62,7 @@ public abstract class MixinSwimming extends LivingEntity {
             if (this.isSwimming()) {
                 this.fallDistance = 0.0F;
                 Vec3d look = this.getRotationVecClient();
-                move(MovementType.SELF, look.x/4, look.y/4, look.z/4);
+                move(MovementType.SELF, new Vec3d(look.x/4, look.y/4, look.z/4));
             }
         }
     }

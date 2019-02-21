@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.class_4081;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.ArmorItem;
@@ -24,7 +25,7 @@ public class Aquarius implements ModInitializer {
     public static final Item PRISMARINE_ROD = register("prismarine_rod", new Item(new Item.Settings().itemGroup(ItemGroup.MISC)));
     public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE = register("chorus_conduit", ChorusConduitBlockEntity::new);
 
-	public static StatusEffect ATLANTEAN = register("atlantean", new AquariusStatusEffect(false, 0x1dd186));
+	public static StatusEffect ATLANTEAN = register("atlantean", new AquariusStatusEffect(class_4081.BENEFICIAL, 0x1dd186));
 
 	@Override
 	public void onInitialize() {
