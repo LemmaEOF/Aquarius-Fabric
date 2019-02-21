@@ -178,7 +178,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         }
 
         if (this.target != null) {
-            Vec3d playerEyes = new Vec3d(this.target.x, this.target.y + (double)this.target.getEyeHeight(), this.target.z);
+            Vec3d playerEyes = new Vec3d(this.target.x, this.target.y + (double)this.target.getEyeHeight(target.getStatus()), this.target.z);
             float randVel = (-0.5F + rand.nextFloat()) * (3.0F + this.target.getWidth());
             distX = -1.0F + rand.nextFloat() * this.target.getHeight();
             distY = (-0.5F + rand.nextFloat()) * (3.0F + this.target.getWidth());
