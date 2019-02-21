@@ -121,7 +121,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         int posY = this.pos.getY();
         int posZ = this.pos.getZ();
         BoundingBox aabb = (new BoundingBox((double)posX, (double)posY, (double)posZ, (double)(posX + 1), (double)(posY + 1), (double)(posZ + 1))).expand((double)range).expand(0.0D, (double)this.world.getHeight(), 0.0D);
-        List<PlayerEntity> players = this.world.getVisibleEntities(PlayerEntity.class, aabb);
+        List<PlayerEntity> players = this.world.method_18467(PlayerEntity.class, aabb);
         if (!players.isEmpty()) {
 
             for (PlayerEntity player : players) {
@@ -154,7 +154,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
     @Nullable
     private LivingEntity findExistingTarget() {
-        List<LivingEntity> entities = this.world.getEntities(LivingEntity.class, this.getAreaOfEffect(), (entity) -> entity.getUuid().equals(this.targetUuid));
+        List<LivingEntity> entities = this.world.method_8390(LivingEntity.class, this.getAreaOfEffect(), (entity) -> entity.getUuid().equals(this.targetUuid));
         return entities.size() == 1 ? entities.get(0) : null;
     }
 

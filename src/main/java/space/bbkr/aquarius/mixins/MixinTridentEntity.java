@@ -46,8 +46,8 @@ public abstract class MixinTridentEntity extends ProjectileEntity {
             BlockPos entityPos = var2.getPos();
             if (this.world.isSkyVisible(entityPos)) {
                 LightningEntity lightning = new LightningEntity(this.world, (double)entityPos.getX(), (double)entityPos.getY(), (double)entityPos.getZ(), false);
-                lightning.method_6961(this.getOwner() instanceof ServerPlayerEntity ? (ServerPlayerEntity) this.getOwner() : null);
-                ((ServerWorld)this.world).method_8416(lightning);
+                lightning.setChanneller(this.getOwner() instanceof ServerPlayerEntity ? (ServerPlayerEntity) this.getOwner() : null);
+                ((ServerWorld)this.world).addLightning(lightning);
                 var6 = SoundEvents.ITEM_TRIDENT_THUNDER;
                 var11 = 5.0F;
             }

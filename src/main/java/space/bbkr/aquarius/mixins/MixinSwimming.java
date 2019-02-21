@@ -21,12 +21,13 @@ public abstract class MixinSwimming extends LivingEntity {
 
     @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot equipmentSlot);
 
-    public MixinSwimming(EntityType<?> factory, World world) {
-        super(factory, world);
+    protected MixinSwimming(EntityType<? extends LivingEntity> type, World world) {
+        super(type, world);
     }
+
     int maxSwimTime = 10;
     int swimTime = 0;
-    @Inject(method = "method_7330", at = @At("HEAD"))
+    @Inject(method = "updateTurtleHelmet", at = @At("HEAD"))
     private void updateTurtleHelmet(CallbackInfo ci) {
         ItemStack stackFeet = this.getEquippedStack(EquipmentSlot.FEET);
         if (stackFeet.getItem() == Aquarius.FLIPPERS) {
@@ -43,7 +44,7 @@ public abstract class MixinSwimming extends LivingEntity {
     }
 
     @Override
-    public boolean method_5869() {
+    public boolean isInWater() {
         return (this.field_6000 && this.isInsideWaterOrRain()) || this.hasPotionEffect(Aquarius.ATLANTEAN);
     }
 

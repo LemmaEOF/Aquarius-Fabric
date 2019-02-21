@@ -24,7 +24,7 @@ public class Aquarius implements ModInitializer {
     public static final Item PRISMARINE_ROD = register("prismarine_rod", new Item(new Item.Settings().itemGroup(ItemGroup.MISC)));
     public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE = register("chorus_conduit", ChorusConduitBlockEntity::new);
 
-	public static StatusEffect ATLANTEAN = register("atlantean", new AquariusStatusEffect(false, 0x1dd186).setIconNew(9, 0));
+	public static StatusEffect ATLANTEAN = register("atlantean", new AquariusStatusEffect(false, 0x1dd186));
 
 	@Override
 	public void onInitialize() {
