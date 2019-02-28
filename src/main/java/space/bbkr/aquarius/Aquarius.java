@@ -7,6 +7,7 @@ import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.class_4081;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.ArmorItem;
@@ -26,6 +27,8 @@ public class Aquarius implements ModInitializer {
     public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE = register("chorus_conduit", ChorusConduitBlockEntity::new);
 
 	public static StatusEffect ATLANTEAN = register("atlantean", new AquariusStatusEffect(class_4081.BENEFICIAL, 0x1dd186));
+
+	public static Enchantment TRIDENT_PIERCING = register("piercing", new TridentPiercingEnchantment());
 
 	@Override
 	public void onInitialize() {
@@ -50,5 +53,9 @@ public class Aquarius implements ModInitializer {
 
 	public static BlockEntityType register(String name, Supplier<BlockEntity> be) {
 		return Registry.register(Registry.BLOCK_ENTITY, "aquarius:" + name, BlockEntityType.Builder.create(be).build(null));
+	}
+
+	public static Enchantment register(String name, Enchantment enchantment) {
+		return Registry.register(Registry.ENCHANTMENT, "aquarius:"+name, enchantment);
 	}
 }
