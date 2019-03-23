@@ -43,7 +43,7 @@ public abstract class MixinTridentEntity extends ProjectileEntity {
             remap = false)
     public void onHitEntity(EntityHitResult var1, CallbackInfo ci, Entity var2, float var3, Entity var10, DamageSource var5, SoundEvent var6, float var11) {
         if ((this.world.isThundering() && EnchantmentHelper.hasChanneling(this.tridentStack)) || (this.world.isRaining() && getChannelingLevel(tridentStack) >= 2) || getChannelingLevel(tridentStack) == 3) {
-            BlockPos entityPos = var2.getPos();
+            BlockPos entityPos = new BlockPos(var2.getPos());
             if (this.world.isSkyVisible(entityPos)) {
                 LightningEntity lightning = new LightningEntity(this.world, (double)entityPos.getX(), (double)entityPos.getY(), (double)entityPos.getZ(), false);
                 lightning.setChanneller(this.getOwner() instanceof ServerPlayerEntity ? (ServerPlayerEntity) this.getOwner() : null);

@@ -2,14 +2,15 @@ package space.bbkr.aquarius;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.class_4081;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.Item;
@@ -26,9 +27,11 @@ public class Aquarius implements ModInitializer {
     public static final Item PRISMARINE_ROD = register("prismarine_rod", new Item(new Item.Settings().itemGroup(ItemGroup.MISC)));
     public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE = register("chorus_conduit", ChorusConduitBlockEntity::new);
 
-	public static StatusEffect ATLANTEAN = register("atlantean", new AquariusStatusEffect(class_4081.BENEFICIAL, 0x1dd186));
+	public static StatusEffect ATLANTEAN = register("atlantean", new AquariusStatusEffect(StatusEffectType.BENEFICIAL.BENEFICIAL, 0x1dd186));
 
-	public static Enchantment TRIDENT_PIERCING = register("piercing", new TridentPiercingEnchantment());
+	public static Enchantment GUARDIAN_SIGHT = register("guardian_sight", new GuardianSightEnchantment());
+
+	public static EntityType<TridentBeamEntity> TRIDENT_BEAM = register("trident_beam", EntityCategory.MISC, EntitySize.resizeable(0.5F, 0.5F), ((entityType, world) -> new TridentBeamEntity(world)));
 
 	@Override
 	public void onInitialize() {
@@ -56,6 +59,11 @@ public class Aquarius implements ModInitializer {
 	}
 
 	public static Enchantment register(String name, Enchantment enchantment) {
-		return Registry.register(Registry.ENCHANTMENT, "aquarius:"+name, enchantment);
+		return Registry.register(Registry.ENCHANTMENT, "aquarius:" + name, enchantment);
+	}
+
+	public static <T extends Entity> EntityType<T> register(String name, EntityCategory category, EntitySize size, EntityType.class_4049<T> factory)
+	{
+		return Registry.register(Registry.ENTITY_TYPE, "aquarius:" + name, FabricEntityTypeBuilder.create(category, factory).size(size).disableSaving().build());
 	}
 }

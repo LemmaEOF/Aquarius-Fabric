@@ -125,7 +125,8 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         if (!players.isEmpty()) {
 
             for (PlayerEntity player : players) {
-                if (this.pos.distanceTo(new BlockPos(player)) <= (double)range) {
+                Vec3d position = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+                if (position.distanceTo(player.getPos()) <= (double)range) {
                     player.addPotionEffect(new StatusEffectInstance(Aquarius.ATLANTEAN, 260, 0, true, true));
                 }
             }
@@ -154,7 +155,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
     @Nullable
     private LivingEntity findExistingTarget() {
-        List<LivingEntity> entities = this.world.method_8390(LivingEntity.class, this.getAreaOfEffect(), (entity) -> entity.getUuid().equals(this.targetUuid));
+        List<LivingEntity> entities = this.world.getEntities(LivingEntity.class, this.getAreaOfEffect(), (entity) -> entity.getUuid().equals(this.targetUuid));
         return entities.size() == 1 ? entities.get(0) : null;
     }
 
@@ -178,7 +179,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         }
 
         if (this.target != null) {
-            Vec3d playerEyes = new Vec3d(this.target.x, this.target.y + (double)this.target.getEyeHeight(target.getStatus()), this.target.z);
+            Vec3d playerEyes = new Vec3d(this.target.x, this.target.y + (double)this.target.getEyeHeight(target.getPose()), this.target.z);
             float randVel = (-0.5F + rand.nextFloat()) * (3.0F + this.target.getWidth());
             distX = -1.0F + rand.nextFloat() * this.target.getHeight();
             distY = (-0.5F + rand.nextFloat()) * (3.0F + this.target.getWidth());
