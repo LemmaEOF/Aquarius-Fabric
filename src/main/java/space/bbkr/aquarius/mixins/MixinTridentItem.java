@@ -29,19 +29,23 @@ public abstract class MixinTridentItem extends Item {
 
 	@Inject(method = "onItemStopUsing", at = @At(value = "HEAD"), cancellable = true)
 	public void makeTridentPiercing(ItemStack stack, World world, LivingEntity entity, int usedTicks, CallbackInfo ci) {
-		if (EnchantmentHelper.getLevel(Aquarius.GUARDIAN_SIGHT, stack) > 0) ci.cancel();
+		if (EnchantmentHelper.getLevel(Aquarius.GUARDIAN_SIGHT, stack) > 0) {
+			world.playSound(null, entity.getBlockPos(), SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYER, 0.5f, 0.95f);
+			ci.cancel();
+		}
 	}
 
 	@Override
 	public void onUsingTick(World world, LivingEntity user, ItemStack stack, int ticksLeft) {
-		if (EnchantmentHelper.getLevel(Aquarius.GUARDIAN_SIGHT, stack) <= 0) return;
+		int sightLevel = EnchantmentHelper.getLevel(Aquarius.GUARDIAN_SIGHT, stack);
+		if (sightLevel <= 0) return;
 		if (ticksLeft < getMaxUseTime(stack) && ticksLeft % 20 == 0) {
-			TridentBeamEntity beam = new TridentBeamEntity(world, user);
+			TridentBeamEntity beam = new TridentBeamEntity(world, user, sightLevel);
 			beam.method_7474(user, user.pitch, user.yaw, 0.0F, 2.5F, 1.0F);
 			beam.pickupType = ProjectileEntity.PickupType.NO_PICKUP;
 			world.spawnEntity(beam);
-			world.playSoundFromEntity((PlayerEntity)user, beam, SoundEvents.ENTITY_GUARDIAN_ATTACK, SoundCategory.PLAYER, 1.0F, 1.0F);
-			stack.applyDamage(1, user);
+			if (ticksLeft == getMaxUseTime(stack) - 20) world.playSoundFromEntity((PlayerEntity)user, beam, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYER, 0.8F, 1.0F);
+			stack.applyDamage(sightLevel, user);
 		}
 	}
 }

@@ -11,7 +11,7 @@ public class TridentBeamRenderer extends ProjectileEntityRenderer<TridentBeamEnt
 	}
 
 	@Override
-	protected Identifier getTexture(TridentBeamEntity tridentBeamEntity) {
+	protected Identifier getTexture(TridentBeamEntity entity) {
 		return new Identifier("aquarius", "textures/entity/trident_beam.png");
 	}
 }

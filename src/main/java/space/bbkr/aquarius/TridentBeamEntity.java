@@ -1,30 +1,37 @@
 package space.bbkr.aquarius;
 
 import net.minecraft.client.network.packet.EntitySpawnS2CPacket;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 
 public class TridentBeamEntity extends ProjectileEntity {
 
-	private int ticksInAir;
+	private int ticksExisted;
+	private int sightLevel;
 
 	protected TridentBeamEntity(World world) {
 		super(Aquarius.TRIDENT_BEAM, world);
 		this.setUnaffectedByGravity(true);
+		setSound(SoundEvents.ENTITY_GUARDIAN_ATTACK);
 	}
 
 	public TridentBeamEntity(double x, double y, double z, World world) {
 		super(Aquarius.TRIDENT_BEAM, x, y, z, world);
 		this.setUnaffectedByGravity(true);
+		setSound(SoundEvents.ENTITY_GUARDIAN_ATTACK);
 	}
 
-	public TridentBeamEntity(World world, LivingEntity owner) {
+	public TridentBeamEntity(World world, LivingEntity owner, int sightLevel) {
 		super(Aquarius.TRIDENT_BEAM, owner, world);
+		this.sightLevel = sightLevel;
+		this.setUnaffectedByGravity(true);
+		setSound(SoundEvents.ENTITY_GUARDIAN_ATTACK);
 	}
 
 	@Override
@@ -35,15 +42,13 @@ public class TridentBeamEntity extends ProjectileEntity {
 	@Override
 	public void tick() {
 		if (!this.world.isClient) {
-			if (!this.onGround) {
-				this.ticksInAir++;
-			}
-
-			if (this.ticksInAir >= 500) {
+			ticksExisted++;
+			if (this.ticksExisted >= 500) {
 				this.invalidate();
 				return;
 			}
 		}
+		this.world.addParticle(ParticleTypes.ENCHANTED_HIT, this.x + (this.random.nextDouble() - 0.5D) * (double)this.getWidth(), this.y + this.random.nextDouble() * (double)this.getHeight(), this.z + (this.random.nextDouble() - 0.5D) * (double)this.getWidth(), 1.0D, 1.0D, 1.0D);
 
 		super.tick();
 	}
@@ -51,7 +56,7 @@ public class TridentBeamEntity extends ProjectileEntity {
 	@Override
 	protected void onHit(LivingEntity target) {
 		super.onHit(target);
-		target.damage(DamageSource.MAGIC, 4.0F);
+		target.damage(DamageSource.MAGIC, 1.5F*sightLevel);
 	}
 
 	@Override
@@ -63,4 +68,6 @@ public class TridentBeamEntity extends ProjectileEntity {
 	public boolean doesCollide() {
 		return false;
 	}
+
+
 }
