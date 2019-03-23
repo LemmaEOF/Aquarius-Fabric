@@ -34,17 +34,13 @@ public class TridentBeamEntity extends ProjectileEntity {
 
 	@Override
 	public void tick() {
-		if (!this.world.isClient)
-		{
-			if (!this.onGround)
-			{
-				++this.ticksInAir;
+		if (!this.world.isClient) {
+			if (!this.onGround) {
+				this.ticksInAir++;
 			}
 
-			if (this.ticksInAir == 500)
-			{
+			if (this.ticksInAir >= 500) {
 				this.invalidate();
-
 				return;
 			}
 		}
@@ -55,12 +51,16 @@ public class TridentBeamEntity extends ProjectileEntity {
 	@Override
 	protected void onHit(LivingEntity target) {
 		super.onHit(target);
-		target.damage(DamageSource.MAGIC, 3.0F);
+		target.damage(DamageSource.MAGIC, 4.0F);
 	}
 
 	@Override
-	public Packet<?> createSpawnPacket()
-	{
+	public Packet<?> createSpawnPacket() {
 		return new EntitySpawnS2CPacket(this, 1 + (this.getOwner() == null ? this.getEntityId() : this.getOwner().getEntityId()));
+	}
+
+	@Override
+	public boolean doesCollide() {
+		return false;
 	}
 }

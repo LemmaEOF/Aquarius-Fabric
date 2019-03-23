@@ -8,11 +8,10 @@ public class TridentBeamRenderer extends ProjectileEntityRenderer<TridentBeamEnt
 
 	public TridentBeamRenderer(EntityRenderDispatcher dispatcher) {
 		super(dispatcher);
-		this.field_4672 = 0.0F;
 	}
 
 	@Override
 	protected Identifier getTexture(TridentBeamEntity tridentBeamEntity) {
-		return new Identifier("minecraft", "textures/entity/guardian_beam.png");
+		return new Identifier("aquarius", "textures/entity/trident_beam.png");
 	}
 }
