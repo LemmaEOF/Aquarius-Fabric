@@ -121,7 +121,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         int posY = this.pos.getY();
         int posZ = this.pos.getZ();
         BoundingBox aabb = (new BoundingBox((double)posX, (double)posY, (double)posZ, (double)(posX + 1), (double)(posY + 1), (double)(posZ + 1))).expand((double)range).expand(0.0D, (double)this.world.getHeight(), 0.0D);
-        List<PlayerEntity> players = this.world.method_18467(PlayerEntity.class, aabb);
+        List<PlayerEntity> players = this.world.getEntitiesInBox(PlayerEntity.class, aabb);
         if (!players.isEmpty()) {
 
             for (PlayerEntity player : players) {
@@ -155,7 +155,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
     @Nullable
     private LivingEntity findExistingTarget() {
-        List<LivingEntity> entities = this.world.getEntities(LivingEntity.class, this.getAreaOfEffect(), (entity) -> entity.getUuid().equals(this.targetUuid));
+        List<LivingEntity> entities = this.world.getEntitiesInBox(LivingEntity.class, this.getAreaOfEffect(), (entity) -> entity.getUuid().equals(this.targetUuid));
         return entities.size() == 1 ? entities.get(0) : null;
     }
 
@@ -173,8 +173,8 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
                 distY = -2.0F + rand.nextFloat();
                 float distZ = -0.5F + rand.nextFloat();
                 BlockPos relPos = pos.subtract(this.pos);
-                Vec3d lvt_10_1_ = (new Vec3d((double)distX, (double)distY, (double)distZ)).add((double)relPos.getX(), (double)relPos.getY(), (double)relPos.getZ());
-                this.world.addParticle(ParticleTypes.NAUTILUS, vec.x, vec.y, vec.z, lvt_10_1_.x, lvt_10_1_.y, lvt_10_1_.z);
+                Vec3d particlePos = (new Vec3d((double)distX, (double)distY, (double)distZ)).add((double)relPos.getX(), (double)relPos.getY(), (double)relPos.getZ());
+                this.world.addParticle(ParticleTypes.NAUTILUS, vec.x, vec.y, vec.z, particlePos.x, particlePos.y, particlePos.z);
             }
         }
 

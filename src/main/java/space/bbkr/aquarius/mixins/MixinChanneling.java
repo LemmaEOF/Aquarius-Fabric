@@ -3,17 +3,15 @@ package space.bbkr.aquarius.mixins;
 import net.minecraft.enchantment.ChannelingEnchantment;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ChannelingEnchantment.class)
 public class MixinChanneling {
 
-    /**
-     * @author b0undarybreaker
-     * @reason let there be multiple channeling levels
-     * @return 3, the new max for Channeling
-     */
-    @Overwrite
-    public int getMaximumLevel() {
-        return 3;
+    @Inject(method = "getMaximumLevel", at = @At("HEAD"), cancellable = true)
+    public void getMaximumLevel(CallbackInfoReturnable cir) {
+        cir.setReturnValue(3);
     }
 }

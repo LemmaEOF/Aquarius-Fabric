@@ -7,7 +7,6 @@
     "MixinChanneling",
     "MixinTridentEntity",
     "MixinSwimming",
-    "MixinTridentRepair",
     "MixinTridentItem"
   ]
 }

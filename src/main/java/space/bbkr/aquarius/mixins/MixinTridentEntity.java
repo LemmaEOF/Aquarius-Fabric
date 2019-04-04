@@ -36,24 +36,23 @@ public abstract class MixinTridentEntity extends ProjectileEntity {
         return EnchantmentHelper.getLevel(Enchantments.CHANNELING, stack);
     }
 
-    @Inject(method = "method_7454",
+    @Inject(method = "onEntityHit",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isThundering()Z"),
             cancellable = true,
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION,
-            remap = false)
-    public void onHitEntity(EntityHitResult var1, CallbackInfo ci, Entity var2, float var3, Entity var10, DamageSource var5, SoundEvent var6, float var11) {
+            locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+    public void onHitEntity(EntityHitResult hit, CallbackInfo ci, Entity target, float damage, Entity thrower, DamageSource source, SoundEvent hitSound, float hitVolume) {
         if ((this.world.isThundering() && EnchantmentHelper.hasChanneling(this.tridentStack)) || (this.world.isRaining() && getChannelingLevel(tridentStack) >= 2) || getChannelingLevel(tridentStack) == 3) {
-            BlockPos entityPos = new BlockPos(var2.getPos());
+            BlockPos entityPos = new BlockPos(target.getPos());
             if (this.world.isSkyVisible(entityPos)) {
                 LightningEntity lightning = new LightningEntity(this.world, (double)entityPos.getX(), (double)entityPos.getY(), (double)entityPos.getZ(), false);
                 lightning.setChanneller(this.getOwner() instanceof ServerPlayerEntity ? (ServerPlayerEntity) this.getOwner() : null);
                 ((ServerWorld)this.world).addLightning(lightning);
-                var6 = SoundEvents.ITEM_TRIDENT_THUNDER;
-                var11 = 5.0F;
+                hitSound = SoundEvents.ITEM_TRIDENT_THUNDER;
+                hitVolume = 5.0F;
             }
         }
 
-        this.playSound(var6, var11, 1.0F);
+        this.playSound(hitSound, hitVolume, 1.0F);
         ci.cancel();
     }
 

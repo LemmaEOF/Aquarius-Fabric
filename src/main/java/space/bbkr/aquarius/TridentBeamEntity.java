@@ -44,7 +44,7 @@ public class TridentBeamEntity extends ProjectileEntity {
 		if (!this.world.isClient) {
 			ticksExisted++;
 			if (this.ticksExisted >= 500) {
-				this.invalidate();
+				this.remove();
 				return;
 			}
 		}
