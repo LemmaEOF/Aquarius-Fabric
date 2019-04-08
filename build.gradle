@@ -7,7 +7,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath "net.fabricmc:fabric-loom:0.2.0-SNAPSHOT"
+		classpath "net.fabricmc:fabric-loom:0.2.1-SNAPSHOT"
 	}
 }
 
@@ -23,17 +23,28 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 archivesBaseName = "aquarius"
-version = "1.2.0+19w14a"
+version = "1.2.0+19w14b"
 
 minecraft {
 	refmapName = 'mixins.aquarius.refmap.json'
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:19w14a"
-	mappings "net.fabricmc:yarn:19w14a.1"
-	modCompile "net.fabricmc:fabric-loader:0.3.7.109"
-	modCompile "net.fabricmc:fabric:0.2.6.117"
+	minecraft "com.mojang:minecraft:19w14b"
+	mappings "net.fabricmc:yarn:19w14b.4"
+	modCompile "net.fabricmc:fabric-loader:0.4.0+build.115"
+	modCompile "net.fabricmc:fabric:0.2.6.121"
 
 	implementation 'org.jetbrains:annotations:15.0'
+}
+
+processResources {
+	inputs.property "version", project.version
+	from(sourceSets.main.resources.srcDirs) {
+		include "fabric.mod.json"
+		expand version: project.version
+	}
+	from(sourceSets.main.resources.srcDirs) {
+		exclude "fabric.mod.json"
+	}
 }

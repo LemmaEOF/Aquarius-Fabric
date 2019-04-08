@@ -1,13 +1,30 @@
 {
+  "schemaVersion": 1,
   "id": "aquarius",
+  "version": "$version",
+
   "name": "Aquarius",
-  "version": "1.2.0",
-  "side": "universal",
-  "initializers": [
-    "space.bbkr.aquarius.Aquarius",
-    "space.bbkr.aquarius.AquariusClient"
+  "icon": "assets/aquarius/icon.png",
+  "description": "More water features!",
+  "licence": "LGPL v3",
+  "contact": {
+    "sources": "https://github.com/Boundarybreaker/Aquarius"
+  },
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "space.bbkr.aquarius.Aquarius"
+    ],
+    "client": [
+      "space.bbkr.aquarius.AquariusClient"
+    ]
+  },
+  "mixins": [
+    "aquarius.common.json"
   ],
-  "mixins": {
-    "common": "aquarius.common.json"
+  "requires": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
   }
 }
