@@ -45,7 +45,7 @@ public abstract class MixinTridentItem extends Item {
 			beam.pickupType = ProjectileEntity.PickupType.NO_PICKUP;
 			world.spawnEntity(beam);
 			if (ticksLeft == getMaxUseTime(stack) - 20) world.playSoundFromEntity((PlayerEntity)user, beam, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYER, 0.8F, 1.0F);
-			stack.applyDamage(sightLevel, user, (entity) -> entity.method_20236(user.getActiveHand()));
+			stack.applyDamage(sightLevel, user, (entity) -> entity.getStackInHand(user.getActiveHand()));
 		}
 	}
 

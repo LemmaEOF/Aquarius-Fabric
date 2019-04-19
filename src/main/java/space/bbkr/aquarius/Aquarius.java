@@ -27,7 +27,7 @@ public class Aquarius implements ModInitializer {
     public static final Item PRISMARINE_ROD = register("prismarine_rod", new Item(new Item.Settings().itemGroup(ItemGroup.MISC)));
     public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE = register("chorus_conduit", ChorusConduitBlockEntity::new);
 
-	public static StatusEffect ATLANTEAN = register("atlantean", new AquariusStatusEffect(StatusEffectType.BENEFICIAL.BENEFICIAL, 0x1dd186));
+	public static StatusEffect ATLANTEAN = register("atlantean", new AquariusStatusEffect(StatusEffectType.BENEFICIAL, 0x1dd186));
 
 	public static Enchantment GUARDIAN_SIGHT = register("guardian_sight", new GuardianSightEnchantment());
 
@@ -62,7 +62,7 @@ public class Aquarius implements ModInitializer {
 		return Registry.register(Registry.ENCHANTMENT, "aquarius:" + name, enchantment);
 	}
 
-	public static <T extends Entity> EntityType<T> register(String name, EntityCategory category, EntitySize size, EntityType.class_4049<T> factory)
+	public static <T extends Entity> EntityType<T> register(String name, EntityCategory category, EntitySize size, EntityType.EntityFactory<T> factory)
 	{
 		return Registry.register(Registry.ENTITY_TYPE, "aquarius:" + name, FabricEntityTypeBuilder.create(category, factory).size(size).disableSaving().build());
 	}

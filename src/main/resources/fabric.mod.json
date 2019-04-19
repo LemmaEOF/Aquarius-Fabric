@@ -8,7 +8,8 @@
   "description": "More water features!",
   "licence": "LGPL v3",
   "contact": {
-    "sources": "https://github.com/Boundarybreaker/Aquarius"
+    "sources": "https://github.com/Boundarybreaker/Aquarius",
+    "issues": "https://github.com/Boundarybreaker/Aquarius/issues"
   },
 
   "environment": "*",

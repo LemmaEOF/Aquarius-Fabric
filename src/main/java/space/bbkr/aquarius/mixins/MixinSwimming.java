@@ -45,18 +45,18 @@ public abstract class MixinSwimming extends LivingEntity {
 
     @Override
     public boolean isInWater() {
-        return (this.field_6000 && this.isInsideWaterOrRain()) || this.hasPotionEffect(Aquarius.ATLANTEAN);
+        return (this.field_6000 && this.isInsideWaterOrRain()) || this.hasStatusEffect(Aquarius.ATLANTEAN);
     }
 
     @Override
     public boolean isInsideWaterOrRain() {
-        if (this.hasPotionEffect(Aquarius.ATLANTEAN)) return true;
+        if (this.hasStatusEffect(Aquarius.ATLANTEAN)) return true;
         return super.isInsideWaterOrRain();
     }
 
     @Inject(method = "updateSwimming", at = @At("TAIL"))
     public void updateAirSwimming(CallbackInfo ci) {
-        if (this.hasPotionEffect(Aquarius.ATLANTEAN)) {
+        if (this.hasStatusEffect(Aquarius.ATLANTEAN)) {
             this.setSwimming(this.isSprinting() && !this.hasVehicle());
             this.insideWater = this.isSwimming();
             if (this.isSwimming()) {
