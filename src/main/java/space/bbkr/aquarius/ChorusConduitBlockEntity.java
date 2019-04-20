@@ -16,7 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BoundingBox;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Random;
@@ -153,7 +152,6 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         return (new BoundingBox((double)posX, (double)posX, (double)posZ, (double)(posX + 1), (double)(posY + 1), (double)(posZ + 1))).expand(8.0D);
     }
 
-    @Nullable
     private LivingEntity findExistingTarget() {
         List<LivingEntity> entities = this.world.getEntities(LivingEntity.class, this.getAreaOfEffect(), (entity) -> entity.getUuid().equals(this.targetUuid));
         return entities.size() == 1 ? entities.get(0) : null;

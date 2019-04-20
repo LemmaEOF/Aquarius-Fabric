@@ -11,11 +11,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterials;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.block.BlockItem;
+import net.minecraft.item.*;
 import net.minecraft.util.registry.Registry;
 
 import java.util.function.Supplier;

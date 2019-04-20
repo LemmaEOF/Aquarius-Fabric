@@ -65,9 +65,8 @@ public class TridentBeamEntity extends ProjectileEntity {
 	}
 
 	@Override
-	public boolean doesCollide() {
+	public boolean collides() {
 		return false;
 	}
-
 
 }
