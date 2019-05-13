@@ -21,7 +21,7 @@ public class Aquarius implements ModInitializer {
 	public static final Block CHORUS_CONDUIT = register("chorus_conduit", new ChorusConduitBlock(FabricBlockSettings.of(Material.GLASS).strength(3.0F, 3.0F).lightLevel(15).build()), ItemGroup.MISC);
 	public static final Item FLIPPERS = register("flippers", new ArmorItem(ArmorMaterials.TURTLE, EquipmentSlot.FEET, new Item.Settings().itemGroup(ItemGroup.COMBAT)));
     public static final Item PRISMARINE_ROD = register("prismarine_rod", new Item(new Item.Settings().itemGroup(ItemGroup.MISC)));
-    public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE = register("chorus_conduit", ChorusConduitBlockEntity::new);
+    public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE = register("chorus_conduit", ChorusConduitBlockEntity::new, CHORUS_CONDUIT);
 
 	public static StatusEffect ATLANTEAN = register("atlantean", new AquariusStatusEffect(StatusEffectType.BENEFICIAL, 0x1dd186));
 
@@ -50,8 +50,8 @@ public class Aquarius implements ModInitializer {
 		return effect;
 	}
 
-	public static BlockEntityType register(String name, Supplier<BlockEntity> be) {
-		return Registry.register(Registry.BLOCK_ENTITY, "aquarius:" + name, BlockEntityType.Builder.create(be).build(null));
+	public static BlockEntityType register(String name, Supplier<BlockEntity> be, Block... blocks) {
+		return Registry.register(Registry.BLOCK_ENTITY, "aquarius:" + name, BlockEntityType.Builder.create(be, blocks).build(null));
 	}
 
 	public static Enchantment register(String name, Enchantment enchantment) {

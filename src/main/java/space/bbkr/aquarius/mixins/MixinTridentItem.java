@@ -42,7 +42,7 @@ public abstract class MixinTridentItem extends Item {
 		if (ticksLeft < getMaxUseTime(stack) && ticksLeft % 20 == 0) {
 			TridentBeamEntity beam = new TridentBeamEntity(world, user, sightLevel);
 			beam.method_7474(user, user.pitch, user.yaw, 0.0F, 2.5F, 1.0F);
-			beam.pickupType = ProjectileEntity.PickupType.NO_PICKUP;
+			beam.pickupType = ProjectileEntity.PickupPermission.DISALLOWED;
 			world.spawnEntity(beam);
 			if (ticksLeft == getMaxUseTime(stack) - 20 && user instanceof PlayerEntity) world.playSoundFromEntity((PlayerEntity)user, beam, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYERS, 0.8F, 1.0F);
 			stack.applyDamage(sightLevel, user, (entity) -> entity.getStackInHand(user.getActiveHand()));

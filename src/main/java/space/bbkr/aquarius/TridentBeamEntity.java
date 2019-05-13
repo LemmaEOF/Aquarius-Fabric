@@ -17,20 +17,20 @@ public class TridentBeamEntity extends ProjectileEntity {
 
 	protected TridentBeamEntity(World world) {
 		super(Aquarius.TRIDENT_BEAM, world);
-		this.setUnaffectedByGravity(true);
+		this.setNoGravity(true);
 		setSound(SoundEvents.ENTITY_GUARDIAN_ATTACK);
 	}
 
 	public TridentBeamEntity(double x, double y, double z, World world) {
 		super(Aquarius.TRIDENT_BEAM, x, y, z, world);
-		this.setUnaffectedByGravity(true);
+		this.setNoGravity(true);
 		setSound(SoundEvents.ENTITY_GUARDIAN_ATTACK);
 	}
 
 	public TridentBeamEntity(World world, LivingEntity owner, int sightLevel) {
 		super(Aquarius.TRIDENT_BEAM, owner, world);
 		this.sightLevel = sightLevel;
-		this.setUnaffectedByGravity(true);
+		this.setNoGravity(true);
 		setSound(SoundEvents.ENTITY_GUARDIAN_ATTACK);
 	}
 
