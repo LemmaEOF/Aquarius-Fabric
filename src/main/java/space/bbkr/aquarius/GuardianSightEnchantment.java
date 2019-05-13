@@ -7,7 +7,7 @@ import net.minecraft.entity.EquipmentSlot;
 
 public class GuardianSightEnchantment extends Enchantment {
 	protected GuardianSightEnchantment() {
-		super(Weight.COMMON, EnchantmentTarget.TRIDENT, new EquipmentSlot[]{EquipmentSlot.HAND_MAIN});
+		super(Weight.COMMON, EnchantmentTarget.TRIDENT, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
 	}
 
 	public int getMinimumPower(int int_1) {
