@@ -10,8 +10,8 @@ public class GuardianSightEnchantment extends Enchantment {
 		super(Weight.COMMON, EnchantmentTarget.TRIDENT, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
 	}
 
-	public int getMinimumPower(int int_1) {
-		return 1 + (int_1 - 1) * 10;
+	public int getMinimumPower(int level) {
+		return 1 + (level - 1) * 10;
 	}
 
 	public int getMaximumLevel() {

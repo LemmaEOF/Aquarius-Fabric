@@ -1,12 +1,9 @@
 package space.bbkr.aquarius;
 
-import net.minecraft.client.network.packet.EntitySpawnS2CPacket;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 
@@ -21,7 +18,7 @@ public class TridentBeamEntity extends ProjectileEntity {
 		setSound(SoundEvents.ENTITY_GUARDIAN_ATTACK);
 	}
 
-	public TridentBeamEntity(double x, double y, double z, World world) {
+	public TridentBeamEntity(World world, double x, double y, double z) {
 		super(Aquarius.TRIDENT_BEAM, x, y, z, world);
 		this.setNoGravity(true);
 		setSound(SoundEvents.ENTITY_GUARDIAN_ATTACK);
@@ -48,7 +45,6 @@ public class TridentBeamEntity extends ProjectileEntity {
 				return;
 			}
 		}
-		this.world.addParticle(ParticleTypes.ENCHANTED_HIT, this.x + (this.random.nextDouble() - 0.5D) * (double)this.getWidth(), this.y + this.random.nextDouble() * (double)this.getHeight(), this.z + (this.random.nextDouble() - 0.5D) * (double)this.getWidth(), 1.0D, 1.0D, 1.0D);
 
 		super.tick();
 	}
@@ -57,11 +53,6 @@ public class TridentBeamEntity extends ProjectileEntity {
 	protected void onHit(LivingEntity target) {
 		super.onHit(target);
 		target.damage(DamageSource.MAGIC, 1.5F*sightLevel);
-	}
-
-	@Override
-	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this, 1 + (this.getOwner() == null ? this.getEntityId() : this.getOwner().getEntityId()));
 	}
 
 	@Override

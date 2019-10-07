@@ -12,41 +12,58 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import space.bbkr.aquarius.Aquarius;
 
 @Mixin(PlayerEntity.class)
-public abstract class MixinSwimming extends LivingEntity {
+public abstract class MixinPlayerEntity extends LivingEntity {
 
     @Shadow public abstract boolean isSwimming();
 
     @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot equipmentSlot);
 
-    protected MixinSwimming(EntityType<? extends LivingEntity> type, World world) {
+    @Shadow protected boolean isInWater;
+
+    protected MixinPlayerEntity(EntityType<? extends LivingEntity> type, World world) {
         super(type, world);
     }
 
-    int maxSwimTime = 10;
-    int swimTime = 0;
+    private int maxSwimCooldown = 10;
+    private int swimCooldownTime = 0;
+    private int swimDamageTime = 0;
     @Inject(method = "updateTurtleHelmet", at = @At("HEAD"))
     private void updateTurtleHelmet(CallbackInfo ci) {
         ItemStack stackFeet = this.getEquippedStack(EquipmentSlot.FEET);
         if (stackFeet.getItem() == Aquarius.FLIPPERS) {
             if (this.isInsideWaterOrRain()) {
-                swimTime = 0;
+                swimCooldownTime = 0;
                 this.addPotionEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 20, 0, true, false, true));
+                if (!world.isClient) {
+                    swimDamageTime++;
+                    if (swimDamageTime % 20 == 0) {
+                        swimDamageTime = 0;
+                        stackFeet.damage(1, this, (entity) -> entity.sendEquipmentBreakStatus(EquipmentSlot.FEET));
+                    }
+                }
             }
             else {
-                if (swimTime >= maxSwimTime) {
+                if (swimCooldownTime >= maxSwimCooldown) {
                     this.addPotionEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20, 0, true, false, true));
-                } else swimTime++;
+                } else swimCooldownTime++;
             }
         }
     }
 
-    @Override
-    public boolean isInWater() {
-        return (this.field_6000 && this.isInsideWaterOrRain()) || this.hasStatusEffect(Aquarius.ATLANTEAN);
-    }
+//    @Override
+//    public boolean isInsideWater() {
+//        if (hasStatusEffect(Aquarius.ATLANTEAN)) return true;
+//        return super.isInsideWater();
+//    }
+
+//    @Inject(method = "updateInWater", at = @At("RETURN"))
+//    private void updateAtlanteanWater(CallbackInfoReturnable<Boolean> ci) {
+//        if (hasStatusEffect(Aquarius.ATLANTEAN)) this.isInWater = true;
+//    }
 
     @Override
     public boolean isInsideWaterOrRain() {
@@ -55,18 +72,16 @@ public abstract class MixinSwimming extends LivingEntity {
     }
 
     @Inject(method = "updateSwimming", at = @At("TAIL"))
-    public void updateAirSwimming(CallbackInfo ci) {
+    private void updateAirSwimming(CallbackInfo ci) {
         if (this.hasStatusEffect(Aquarius.ATLANTEAN)) {
             this.setSwimming(this.isSprinting() && !this.hasVehicle());
             this.insideWater = this.isSwimming();
             if (this.isSwimming()) {
                 this.fallDistance = 0.0F;
-                Vec3d look = this.getRotationVecClient();
+                Vec3d look = this.getRotationVector();
                 move(MovementType.SELF, new Vec3d(look.x/4, look.y/4, look.z/4));
             }
         }
     }
-
-
 
 }

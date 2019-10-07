@@ -27,7 +27,7 @@ public abstract class MixinTridentItem extends Item {
 		super(settings);
 	}
 
-	@Inject(method = "onItemStopUsing", at = @At(value = "HEAD"), cancellable = true)
+	@Inject(method = "onStoppedUsing", at = @At(value = "HEAD"), cancellable = true)
 	public void makeTridentPiercing(ItemStack stack, World world, LivingEntity entity, int usedTicks, CallbackInfo ci) {
 		if (EnchantmentHelper.getLevel(Aquarius.GUARDIAN_SIGHT, stack) > 0) {
 			world.playSound(null, entity.getBlockPos(), SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYERS, 0.5f, 0.95f);
@@ -36,16 +36,16 @@ public abstract class MixinTridentItem extends Item {
 	}
 
 	@Override
-	public void onUsingTick(World world, LivingEntity user, ItemStack stack, int ticksLeft) {
+	public void usageTick(World world, LivingEntity user, ItemStack stack, int ticksLeft) {
 		int sightLevel = EnchantmentHelper.getLevel(Aquarius.GUARDIAN_SIGHT, stack);
 		if (sightLevel <= 0) return;
 		if (ticksLeft < getMaxUseTime(stack) && ticksLeft % 20 == 0) {
 			TridentBeamEntity beam = new TridentBeamEntity(world, user, sightLevel);
-			beam.method_7474(user, user.pitch, user.yaw, 0.0F, 2.5F, 1.0F);
+			beam.setProperties(user, user.pitch, user.yaw, 0.0F, 2.5F, 1.0F);
 			beam.pickupType = ProjectileEntity.PickupPermission.DISALLOWED;
 			world.spawnEntity(beam);
 			if (ticksLeft == getMaxUseTime(stack) - 20 && user instanceof PlayerEntity) world.playSoundFromEntity((PlayerEntity)user, beam, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYERS, 0.8F, 1.0F);
-			stack.applyDamage(sightLevel, user, (entity) -> entity.getStackInHand(user.getActiveHand()));
+			stack.damage(sightLevel, user, (entity) -> entity.getStackInHand(user.getActiveHand()));
 		}
 	}
 

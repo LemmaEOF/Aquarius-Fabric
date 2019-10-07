@@ -11,12 +11,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 
 public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBlockEntity> {
-    private static final Identifier baseTex = new Identifier("aquarius:textures/entity/chorus_conduit/base.png");
-    private static final Identifier cageTex = new Identifier("aquarius:textures/entity/chorus_conduit/cage.png");
-    private static final Identifier windTex = new Identifier("aquarius:textures/entity/chorus_conduit/wind.png");
-    private static final Identifier verticalWindTex = new Identifier("aquarius:textures/entity/chorus_conduit/wind_vertical.png");
-    private static final Identifier openEyeTex = new Identifier("aquarius:textures/entity/chorus_conduit/open_eye.png");
-    private static final Identifier closedEyeTex = new Identifier("aquarius:textures/entity/chorus_conduit/closed_eye.png");
+    private static final Identifier baseTex = new Identifier(Aquarius.MODID, "textures/entity/chorus_conduit/base.png");
+    private static final Identifier cageTex = new Identifier(Aquarius.MODID, "textures/entity/chorus_conduit/cage.png");
+    private static final Identifier windTex = new Identifier(Aquarius.MODID, "textures/entity/chorus_conduit/wind.png");
+    private static final Identifier verticalWindTex = new Identifier(Aquarius.MODID, "textures/entity/chorus_conduit/wind_vertical.png");
+    private static final Identifier openEyeTex = new Identifier(Aquarius.MODID, "textures/entity/chorus_conduit/open_eye.png");
+    private static final Identifier closedEyeTex = new Identifier(Aquarius.MODID, "textures/entity/chorus_conduit/closed_eye.png");
     private final ChorusConduitRenderer.ShellModel shellModel = new ChorusConduitRenderer.ShellModel();
     private final ChorusConduitRenderer.CageModel cageModel = new ChorusConduitRenderer.CageModel();
     private final ChorusConduitRenderer.WindModel windModel = new ChorusConduitRenderer.WindModel();
@@ -98,7 +98,7 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
             }
 
             Entity viewer = MinecraftClient.getInstance().getCameraEntity();
-            Vec2f look = Vec2f.field_1335;
+            Vec2f look = Vec2f.SOUTH_EAST_UNIT;
             if (viewer != null) {
                 look = viewer.getRotationClient();
             }

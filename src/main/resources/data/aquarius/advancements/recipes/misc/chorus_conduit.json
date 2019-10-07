@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "aquarius:chorus_conduit"
+    ]
+  },
+  "criteria": {
+    "has_conduit_and_shulker_shell": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:conduit"
+          },
+          {
+            "item": "minecraft:shulker_shell"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "aquarius:chorus_conduit"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_conduit_and_shulker_shell",
+      "has_the_recipe"
+    ]
+  ]
+}

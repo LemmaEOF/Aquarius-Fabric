@@ -5,8 +5,11 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinChanneling",
+    "MixinPlayerEntity",
     "MixinTridentEntity",
-    "MixinSwimming",
     "MixinTridentItem"
+  ],
+  "client": [
+    "MixinClientPlayNetworkHandler"
   ]
 }

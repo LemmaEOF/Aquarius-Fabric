@@ -1,9 +1,7 @@
 package space.bbkr.aquarius;
 
 import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ConduitBlockEntity;
 import net.minecraft.entity.LivingEntity;
@@ -13,7 +11,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BoundingBox;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -25,7 +23,6 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
     public int ticksExisted;
     private final List<BlockPos> purpurPositions;
-    private static final Block[] validBlocks = new Block[]{Blocks.PURPUR_BLOCK, Blocks.PURPUR_PILLAR};
     private float rotationPoint;
     private boolean active;
     private boolean eyeOpen;
@@ -77,18 +74,6 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         int xOffset;
         int yOffset;
         int zOffset;
-//        for(xOffset = -1; xOffset <= 1; ++xOffset) {
-//            for(yOffset = -1; yOffset <= 1; ++yOffset) {
-//                for(zOffset = -1; zOffset <= 1; ++zOffset) {
-//                    if (xOffset != 0 || yOffset != 0 || zOffset != 0) {
-//                        BlockPos pos = this.pos.add(xOffset, yOffset, zOffset);
-//                        if (!this.world.hasWater(pos)) {
-//                            return false;
-//                        }
-//                    }
-//                }
-//            }
-//        }
 
         for(xOffset = -2; xOffset <= 2; ++xOffset) {
             for(yOffset = -2; yOffset <= 2; ++yOffset) {
@@ -99,10 +84,8 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
                     if ((xOffset == 0 && (yAbs == 2 || zAbs == 2) || yOffset == 0 && (xAbs == 2 || zAbs == 2) || zOffset == 0 && (xAbs == 2 || yAbs == 2))) {
                         BlockPos pos = this.pos.add(xOffset, yOffset, zOffset);
                         BlockState state = this.world.getBlockState(pos);
-                        for(Block block : validBlocks) {
-                            if (state.getBlock() == block) {
-                                this.purpurPositions.add(pos);
-                            }
+                        if (Aquarius.CHORUS_CONDUIT_ACTIVATORS.contains(state.getBlock())) {
+                            this.purpurPositions.add(pos);
                         }
                     }
                 }
@@ -119,7 +102,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         int posX = this.pos.getX();
         int posY = this.pos.getY();
         int posZ = this.pos.getZ();
-        BoundingBox aabb = (new BoundingBox((double)posX, (double)posY, (double)posZ, (double)(posX + 1), (double)(posY + 1), (double)(posZ + 1))).expand((double)range).expand(0.0D, (double)this.world.getHeight(), 0.0D);
+        Box aabb = (new Box(posX, posY, posZ, posX + 1, posY + 1, posZ + 1)).expand(range).expand(0.0D, this.world.getHeight(), 0.0D);
         List<PlayerEntity> players = this.world.getEntities(PlayerEntity.class, aabb);
         if (!players.isEmpty()) {
 
@@ -145,11 +128,11 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
     }
 
-    private BoundingBox getAreaOfEffect() {
+    private Box getAreaOfEffect() {
         int posX = this.pos.getX();
         int posY = this.pos.getY();
         int posZ = this.pos.getZ();
-        return (new BoundingBox((double)posX, (double)posX, (double)posZ, (double)(posX + 1), (double)(posY + 1), (double)(posZ + 1))).expand(8.0D);
+        return (new Box(posX, posX, posZ, posX + 1, posY + 1, posZ + 1)).expand(8.0D);
     }
 
     private LivingEntity findExistingTarget() {
@@ -161,7 +144,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         Random rand = this.world.random;
         float rot = MathHelper.sin((float)(this.ticksExisted + 35) * 0.1F) / 2.0F + 0.5F;
         rot = (rot * rot + rot) * 0.3F;
-        Vec3d vec = new Vec3d((double)((float)this.pos.getX() + 0.5F), (double)((float)this.pos.getY() + 1.5F + rot), (double)((float)this.pos.getZ() + 0.5F));
+        Vec3d vec = new Vec3d((float)this.pos.getX() + 0.5F, (float)this.pos.getY() + 1.5F + rot, (float)this.pos.getZ() + 0.5F);
 
         float distX;
         float distY;
@@ -171,7 +154,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
                 distY = -2.0F + rand.nextFloat();
                 float distZ = -0.5F + rand.nextFloat();
                 BlockPos relPos = pos.subtract(this.pos);
-                Vec3d particlePos = (new Vec3d((double)distX, (double)distY, (double)distZ)).add((double)relPos.getX(), (double)relPos.getY(), (double)relPos.getZ());
+                Vec3d particlePos = (new Vec3d(distX, distY, distZ)).add(relPos.getX(), relPos.getY(), relPos.getZ());
                 this.world.addParticle(ParticleTypes.NAUTILUS, vec.x, vec.y, vec.z, particlePos.x, particlePos.y, particlePos.z);
             }
         }
@@ -181,7 +164,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
             float randVel = (-0.5F + rand.nextFloat()) * (3.0F + this.target.getWidth());
             distX = -1.0F + rand.nextFloat() * this.target.getHeight();
             distY = (-0.5F + rand.nextFloat()) * (3.0F + this.target.getWidth());
-            Vec3d velocity = new Vec3d((double)randVel, (double)distX, (double)distY);
+            Vec3d velocity = new Vec3d(randVel, distX, distY);
             this.world.addParticle(ParticleTypes.NAUTILUS, playerEyes.x, playerEyes.y, playerEyes.z, velocity.x, velocity.y, velocity.z);
         }
 

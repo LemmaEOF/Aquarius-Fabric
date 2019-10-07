@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinChanneling {
 
     @Inject(method = "getMaximumLevel", at = @At("HEAD"), cancellable = true)
-    public void getMaximumLevel(CallbackInfoReturnable cir) {
+    public void getMaximumLevel(CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue(3);
     }
 }
