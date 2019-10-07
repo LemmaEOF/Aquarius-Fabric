@@ -3,6 +3,8 @@ package space.bbkr.aquarius;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
+import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
@@ -17,6 +19,8 @@ import net.minecraft.item.*;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.loot.condition.RandomChanceLootCondition;
+import net.minecraft.world.loot.entry.ItemEntry;
 
 import java.util.function.Supplier;
 
@@ -38,6 +42,15 @@ public class Aquarius implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {
+			if (id.equals(new Identifier("minecraft", "chests/shipwreck_treasure"))) {
+				supplier.withPool(FabricLootPoolBuilder.builder()
+						.withEntry(ItemEntry.builder(Items.HEART_OF_THE_SEA)
+								.withCondition(RandomChanceLootCondition.builder(0.1f))
+						).withEntry(ItemEntry.builder(Items.NAUTILUS_SHELL).withCondition(RandomChanceLootCondition.builder(0.33f)))
+				);
+			}
+		});
 	}
 
 	public static Block register(String name, Block block, ItemGroup tab) {

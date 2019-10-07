@@ -22,8 +22,6 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 
     @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot equipmentSlot);
 
-    @Shadow protected boolean isInWater;
-
     protected MixinPlayerEntity(EntityType<? extends LivingEntity> type, World world) {
         super(type, world);
     }
@@ -53,17 +51,6 @@ public abstract class MixinPlayerEntity extends LivingEntity {
             }
         }
     }
-
-//    @Override
-//    public boolean isInsideWater() {
-//        if (hasStatusEffect(Aquarius.ATLANTEAN)) return true;
-//        return super.isInsideWater();
-//    }
-
-//    @Inject(method = "updateInWater", at = @At("RETURN"))
-//    private void updateAtlanteanWater(CallbackInfoReturnable<Boolean> ci) {
-//        if (hasStatusEffect(Aquarius.ATLANTEAN)) this.isInWater = true;
-//    }
 
     @Override
     public boolean isInsideWaterOrRain() {

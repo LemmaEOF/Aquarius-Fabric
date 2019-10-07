@@ -23,7 +23,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 archivesBaseName = "aquarius"
-version = "1.3.1+1.14.4"
+version = "1.4.0+1.14.4"
 
 minecraft {
 	refmapName = 'mixins.aquarius.refmap.json'
