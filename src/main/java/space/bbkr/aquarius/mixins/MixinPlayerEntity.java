@@ -35,7 +35,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
         if (stackFeet.getItem() == Aquarius.FLIPPERS) {
             if (this.isInsideWaterOrRain()) {
                 swimCooldownTime = 0;
-                this.addPotionEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 20, 0, true, false, true));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 20, 0, true, false, true));
                 if (!world.isClient) {
                     swimDamageTime++;
                     if (swimDamageTime % 20 == 0) {
@@ -46,7 +46,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
             }
             else {
                 if (swimCooldownTime >= maxSwimCooldown) {
-                    this.addPotionEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20, 0, true, false, true));
+                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20, 0, true, false, true));
                 } else swimCooldownTime++;
             }
         }

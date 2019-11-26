@@ -103,13 +103,13 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         int posY = this.pos.getY();
         int posZ = this.pos.getZ();
         Box aabb = (new Box(posX, posY, posZ, posX + 1, posY + 1, posZ + 1)).expand(range).expand(0.0D, this.world.getHeight(), 0.0D);
-        List<PlayerEntity> players = this.world.getEntities(PlayerEntity.class, aabb);
+        List<PlayerEntity> players = this.world.getEntities(PlayerEntity.class, aabb, null);
         if (!players.isEmpty()) {
 
             for (PlayerEntity player : players) {
                 Vec3d position = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
                 if (position.distanceTo(player.getPos()) <= (double)range) {
-                    player.addPotionEffect(new StatusEffectInstance(Aquarius.ATLANTEAN, 260, 0, true, true));
+                    player.addStatusEffect(new StatusEffectInstance(Aquarius.ATLANTEAN, 260, 0, true, true));
                 }
             }
 
@@ -160,7 +160,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         }
 
         if (this.target != null) {
-            Vec3d playerEyes = new Vec3d(this.target.x, this.target.y + (double)this.target.getEyeHeight(target.getPose()), this.target.z);
+            Vec3d playerEyes = new Vec3d(this.target.getX(), this.target.getY() + (double)this.target.getEyeHeight(target.getPose()), this.target.getZ());
             float randVel = (-0.5F + rand.nextFloat()) * (3.0F + this.target.getWidth());
             distX = -1.0F + rand.nextFloat() * this.target.getHeight();
             distY = (-0.5F + rand.nextFloat()) * (3.0F + this.target.getWidth());
