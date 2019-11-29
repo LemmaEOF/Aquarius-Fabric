@@ -1,6 +1,8 @@
 package space.bbkr.aquarius;
 
 import com.google.common.collect.Lists;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ConduitBlockEntity;
@@ -21,10 +23,9 @@ import java.util.UUID;
 
 public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tickable {
 
-    public int ticksExisted;
     private final List<BlockPos> purpurPositions;
-    private float rotationPoint;
     private boolean active;
+    private float ticksActive;
     private boolean eyeOpen;
     private LivingEntity target;
     private UUID targetUuid;
@@ -40,7 +41,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
     }
 
     public void tick() {
-        ++this.ticksExisted;
+        ++this.ticks;
         long time = this.world.getTime();
         if (time % 40L == 0L) {
             this.setActive(this.shouldBeActive());
@@ -62,7 +63,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
             this.updateClientTarget();
             this.spawnParticles();
             if (this.isActive()) {
-                ++this.rotationPoint;
+                ++this.ticksActive;
             }
         }
 
@@ -142,7 +143,7 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
 
     private void spawnParticles() {
         Random rand = this.world.random;
-        float rot = MathHelper.sin((float)(this.ticksExisted + 35) * 0.1F) / 2.0F + 0.5F;
+        float rot = MathHelper.sin((float)(this.ticks + 35) * 0.1F) / 2.0F + 0.5F;
         rot = (rot * rot + rot) * 0.3F;
         Vec3d vec = new Vec3d((float)this.pos.getX() + 0.5F, (float)this.pos.getY() + 1.5F + rot, (float)this.pos.getZ() + 0.5F);
 
@@ -190,7 +191,10 @@ public class ChorusConduitBlockEntity extends ConduitBlockEntity implements Tick
         this.eyeOpen = open;
     }
 
-    public float drawTESR(float ticks) {
-        return (this.rotationPoint + ticks) * -0.0375F;
+    @Override
+    @Environment(EnvType.CLIENT)
+    public float getRotation(float tickDelta) {
+        return (this.ticksActive + tickDelta) * -0.0375F;
     }
+
 }

@@ -22,35 +22,36 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
     public static final SpriteIdentifier WIND_VERTICAL_TEX;
     public static final SpriteIdentifier OPEN_EYE_TEX;
     public static final SpriteIdentifier CLOSED_EYE_TEX;
-    private final ModelPart eyeModel = new ModelPart(16, 16, 0, 0);
+    private final ModelPart eyeModel;
     private final ModelPart windModel;
-    private final ModelPart shellModel;
+    private final ModelPart baseModel;
     private final ModelPart cageModel;
 
     public ChorusConduitRenderer(BlockEntityRenderDispatcher dispatcher) {
         super(dispatcher);
+        this.eyeModel = new ModelPart(16, 16, 0, 0);
         this.eyeModel.addCuboid(-4.0F, -4.0F, 0.0F, 8.0F, 8.0F, 0.0F, 0.01F);
         this.windModel = new ModelPart(64, 32, 0, 0);
         this.windModel.addCuboid(-8.0F, -8.0F, -8.0F, 16.0F, 16.0F, 16.0F);
-        this.shellModel = new ModelPart(32, 16, 0, 0);
-        this.shellModel.addCuboid(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F);
+        this.baseModel = new ModelPart(32, 16, 0, 0);
+        this.baseModel.addCuboid(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F);
         this.cageModel = new ModelPart(32, 16, 0, 0);
         this.cageModel.addCuboid(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F);
     }
 
-    public void render(ChorusConduitBlockEntity be, float f, MatrixStack stack, VertexConsumerProvider provider, int i, int j) {
-        float g = (float)be.ticks + f;
+    public void render(ChorusConduitBlockEntity conduit, float f, MatrixStack stack, VertexConsumerProvider provider, int i, int j) {
+        float g = (float) conduit.ticks + f;
         float k;
-        if (!be.isActive()) {
-            k = be.getRotation(0.0F);
-            VertexConsumer baseModel = BASE_TEX.getVertexConsumer(provider, RenderLayer::getEntitySolid);
+        if (!conduit.isActive()) {
+            k = conduit.getRotation(0.0F);
+            VertexConsumer baseConsumer = BASE_TEX.getVertexConsumer(provider, RenderLayer::getEntitySolid);
             stack.push();
             stack.translate(0.5D, 0.5D, 0.5D);
             stack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(k));
-            this.shellModel.render(stack, baseModel, i, j);
+            this.baseModel.render(stack, baseConsumer, i, j);
             stack.pop();
         } else {
-            k = be.getRotation(f) * 57.295776F;
+            k = conduit.getRotation(f) * 57.295776F;
             float l = MathHelper.sin(g * 0.1F) / 2.0F + 0.5F;
             l += l * l;
             stack.push();
@@ -60,7 +61,7 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
             stack.multiply(new Quaternion(vector3f, k, true));
             this.cageModel.render(stack, CAGE_TEX.getVertexConsumer(provider, RenderLayer::getEntityCutoutNoCull), i, j);
             stack.pop();
-            int m = be.ticks / 66 % 3;
+            int m = conduit.ticks / 66 % 3;
             stack.push();
             stack.translate(0.5D, 0.5D, 0.5D);
             if (m == 1) {
@@ -69,15 +70,15 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
                 stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(90.0F));
             }
 
-            VertexConsumer vertexConsumer2 = (m == 1 ? WIND_VERTICAL_TEX : WIND_TEX).getVertexConsumer(provider, RenderLayer::getEntityCutoutNoCull);
-            this.windModel.render(stack, vertexConsumer2, i, j);
+            VertexConsumer windConsumer = (m == 1 ? WIND_VERTICAL_TEX : WIND_TEX).getVertexConsumer(provider, RenderLayer::getEntityCutoutNoCull);
+            this.windModel.render(stack, windConsumer, i, j);
             stack.pop();
             stack.push();
             stack.translate(0.5D, 0.5D, 0.5D);
             stack.scale(0.875F, 0.875F, 0.875F);
             stack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(180.0F));
             stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180.0F));
-            this.windModel.render(stack, vertexConsumer2, i, j);
+            this.windModel.render(stack, windConsumer, i, j);
             stack.pop();
             Camera camera = this.blockEntityRenderDispatcher.camera;
             stack.push();
@@ -88,7 +89,7 @@ public class ChorusConduitRenderer extends BlockEntityRenderer<ChorusConduitBloc
             stack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
             stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180.0F));
             stack.scale(1.3333334F, 1.3333334F, 1.3333334F);
-            this.eyeModel.render(stack, (be.isEyeOpen() ? OPEN_EYE_TEX : CLOSED_EYE_TEX).getVertexConsumer(provider, RenderLayer::getEntityCutoutNoCull), i, j);
+            this.eyeModel.render(stack, (conduit.isEyeOpen() ? OPEN_EYE_TEX : CLOSED_EYE_TEX).getVertexConsumer(provider, RenderLayer::getEntityCutoutNoCull), i, j);
             stack.pop();
         }
     }
